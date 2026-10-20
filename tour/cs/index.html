@@ -406,12 +406,14 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Ukaž jedním prstem</b> a přečteš přesnou hodnotu v ten okamžik.</span></li>
         <li><span><b>Dvěma prsty roztáhni nebo posuň</b> okno. Plochá noc si otevře stupnici z dvaceti stupňů na tři, takže tvar vynikne sám.</span></li>
         <li><span><b>Přicházíš z Teď?</b> Klepnutí na dlaždici větru nebo tlaku tě dovede na její graf.</span></li>
+        <li>Mlha a dohlednost: graf, jak daleko je vidět, s čárkovanou čárou na jednom kilometru, kde mlha začíná. Říká, jestli je údaj změřený na letišti, nebo je z modelu.</li>
       </ul>
       <div class="x" data-only="expert">
         <h3>Expert přidává</h3>
         <ul>
           <li>Řádek nad grafy říká, jak daleko dozadu data sahají a že starší část je model, ne to, co aplikace viděla.</li>
           <li>Osa hodnot se počítá z toho, co je v okně, takže přiblížení nikdy nenechá zploštělou čáru.</li>
+          <li>Mlha je dohlednost pod 1000 m. Do přítomnosti je to hlášení METAR nejbližšího letiště do 30 km, se jménem a vzdáleností, dopředu ICON-EU nebo ECMWF IFS. Pole mlhy od MET dvakrát mlhu v údolí minulo a model zachytí jen část, proto je na prvním místě letiště.</li>
         </ul>
       </div>
     </div>
@@ -613,7 +615,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   <div class="wrap">
     <p><b>Nimbus</b> - bez účtu, bez reklam, bez telemetrie. Všechno zůstává v telefonu.</p>
     <p><a href="https://mdiskuze.github.io/nimbus/privacy-policy.html">Zásady ochrany soukromí</a> · <a href="https://github.com/mdiskuze/nimbus">Nahlásit problém</a></p>
-    <p>Data: MET Norway, Open-Meteo s modely DWD, CHMI a ECMWF, SMHI, MeteoAlarm, NOAA SWPC, GeoNames, OpenStreetMap, MapTiler.</p>
+    <p>Data: MET Norway, Open-Meteo s modely DWD, CHMI a ECMWF, SMHI, MeteoAlarm, NOAA SWPC a Aviation Weather Center, GeoNames, OpenStreetMap, MapTiler.</p>
   </div>
 </footer>
 

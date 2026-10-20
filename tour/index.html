@@ -406,12 +406,14 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Point with one finger</b> to read the exact value at that moment.</span></li>
         <li><span><b>Pinch with two fingers</b> to stretch or move the window. A flat night opens its scale from twenty degrees to three, so the shape appears on its own.</span></li>
         <li><span><b>Coming from Now?</b> Tapping the wind or pressure tile lands on its chart.</span></li>
+        <li>Fog and visibility: a chart of how far one can see, with a dashed line at one kilometre where fog begins. It says if the figure is measured at an airport or comes from a model.</li>
       </ul>
       <div class="x" data-only="expert">
         <h3>Expert adds</h3>
         <ul>
           <li>The line above the charts says how far back the data reaches and that the older part is the model, not what the app saw.</li>
           <li>The value axis is computed from what is inside the window, so zooming never leaves a squashed line.</li>
+          <li>Fog is a visibility under 1000 m. Up to now it is the METAR of the nearest airport within 30 km, named with its distance, ahead of it ICON-EU or ECMWF IFS. MET's own fog field missed valley fog twice and a model catches only part of it, so an airport goes first.</li>
         </ul>
       </div>
     </div>
@@ -613,7 +615,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   <div class="wrap">
     <p><b>Nimbus</b> - no account, no ads, no telemetry. Everything stays on your phone.</p>
     <p><a href="https://mdiskuze.github.io/nimbus/privacy-policy.html">Privacy policy</a> · <a href="https://github.com/mdiskuze/nimbus">Report an issue</a></p>
-    <p>Data: MET Norway, Open-Meteo with models by DWD, CHMI and ECMWF, SMHI, MeteoAlarm, NOAA SWPC, GeoNames, OpenStreetMap, MapTiler.</p>
+    <p>Data: MET Norway, Open-Meteo with models by DWD, CHMI and ECMWF, SMHI, MeteoAlarm, NOAA SWPC and Aviation Weather Center, GeoNames, OpenStreetMap, MapTiler.</p>
   </div>
 </footer>
 
