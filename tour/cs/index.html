@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nimbus - co všechno umí</title>
+<meta name="description" content="Prohlídka aplikace Nimbus, počasí, které říká, co si vzít na sebe a jak moc si je jisté.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<link rel="canonical" href="https://mdiskuze.github.io/nimbus/tour/cs/">
+<link rel="alternate" hreflang="en" href="https://mdiskuze.github.io/nimbus/tour/">
+<link rel="alternate" hreflang="cs" href="https://mdiskuze.github.io/nimbus/tour/cs/">
+<link rel="alternate" hreflang="sv" href="https://mdiskuze.github.io/nimbus/tour/sv/">
+<link rel="alternate" hreflang="x-default" href="https://mdiskuze.github.io/nimbus/tour/">
+<meta property="og:title" content="Nimbus - co všechno umí">
+<meta property="og:description" content="Potřebuju bundu, když teď vyjdu ven? Prohlídka aplikace, která říká, jak moc si je jistá.">
+<meta property="og:image" content="https://mdiskuze.github.io/nimbus/tour/img/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --ground:#fbf8f5; --surface:#f3efea; --surface-2:#ece6df; --ink:#1d1b19; --ink-2:#57514b; --line:#ddd5cc;
+  --accent:#8a5200; --accent-ink:#ffffff; --peach:#fbe2c8; --peach-2:#f6d2ac;
+  --good:#2e7d32; --mid:#a86b00; --bad:#b3261e; --rain:#1565c0;
+  --shadow:0 1px 2px rgba(60,40,20,.08),0 12px 32px -12px rgba(60,40,20,.28);
+  --radius:28px; --max:1120px;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#16130f; --surface:#211c17; --surface-2:#2b251f; --ink:#f3ebe3; --ink-2:#bdb2a6; --line:#3a322a;
+    --accent:#f0b56b; --accent-ink:#2a1700; --peach:#3a2a19; --peach-2:#4a3420; --shadow:0 12px 32px -12px rgba(0,0,0,.7);
+    --good:#7fd085; --mid:#e2a43b; --bad:#ff8a80; --rain:#7fb4ff;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:128px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 17px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent)}
+h1,h2,h3{line-height:1.12;letter-spacing:-.02em;margin:0}
+p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+/* mode switching: User hides what only Expert shows, and the other way round */
+html[data-mode="user"] [data-only="expert"]{display:none!important}
+html[data-mode="expert"] [data-only="user"]{display:none!important}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;min-height:64px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.langs{margin-left:auto;display:flex;gap:2px}
+.langs a{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--ink-2);text-decoration:none;padding:10px 9px;min-height:44px;display:inline-flex;align-items:center;border-radius:10px}
+.langs a[aria-current="true"]{color:var(--ink);background:var(--surface-2)}
+.langs a:hover{background:var(--surface)}
+.modeswitch{margin-left:0;display:flex;align-items:center;gap:10px}
+.modeswitch small{color:var(--ink-2);font-size:13px;max-width:210px;line-height:1.25;display:none}
+@media(min-width:900px){.modeswitch small{display:block}}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px}
+.seg button{font:600 15px/1 var(--font);border:0;background:transparent;color:var(--ink-2);padding:11px 18px;min-height:44px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.chapters{border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.chapters::-webkit-scrollbar{display:none}
+.chapters .wrap{display:flex;flex-wrap:nowrap;gap:4px;padding-top:6px;padding-bottom:6px}
+.chapters a{white-space:nowrap;text-decoration:none;color:var(--ink-2);font-size:14px;font-weight:600;padding:9px 12px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center}
+.chapters a:hover{background:var(--surface)}
+.chapters a.on{background:var(--peach);color:var(--ink)}
+
+/* hero */
+.hero{padding:56px 0 40px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(40px,6vw,68px);margin:14px 0 18px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--ink-2);max-width:34em}
+.pledges{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;padding:0;list-style:none}
+.pledges li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:15px;font-weight:600}
+.heroart{position:relative;min-height:560px;display:flex;justify-content:center}
+.heroart .phone{width:min(300px,64vw);transform:rotate(2deg)}
+.float{z-index:2;position:absolute;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--ground)}
+.float img{width:100%}
+.f1{width:min(300px,70vw);left:-4%;bottom:3%}
+.f2{width:min(260px,56vw);right:0;top:0}
+
+/* phone frame */
+.phone{margin:0;border-radius:40px;background:#1d1b19;padding:9px;box-shadow:var(--shadow);position:relative}
+.phone img{border-radius:32px;width:100%;height:auto;background:#fff}
+.watch{margin:0;border-radius:50%;background:#000;padding:8px;box-shadow:var(--shadow);width:200px;height:200px;flex:none}
+.watch img{border-radius:50%;width:100%;height:100%}
+
+/* chapters */
+.chap{padding:72px 0;border-top:1px solid var(--line)}
+.chap .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.chap.flip .art{order:-1}
+.num{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:.1em}
+.chap h2{font-size:clamp(30px,4vw,46px);margin:10px 0 16px}
+.chap .lead{font-size:19px}
+.can{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:12px}
+.can li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.can li::before{content:"";width:22px;height:22px;margin-top:3px;border-radius:50%;background:var(--peach) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%238a5200' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.can b{font-weight:650}
+.x{margin-top:22px;border:1.5px dashed color-mix(in srgb,var(--accent) 55%,transparent);border-radius:20px;padding:16px 18px;background:color-mix(in srgb,var(--peach) 45%,transparent)}
+.x h3{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.x h3::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);transform:rotate(45deg)}
+.device .x h3,.country .x h3{font-size:12.5px;margin-bottom:8px}
+.x p,.x li{font-size:15.5px;color:var(--ink-2)}
+.x ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.x code,.mono{font:600 .92em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--surface-2);padding:1px 6px;border-radius:6px;color:var(--ink)}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:4px 10px;border-radius:999px;vertical-align:middle;margin-left:8px}
+.art{display:flex;justify-content:center;position:relative}
+.art .phone{width:min(320px,80vw)}
+.art .float{position:static;margin-top:18px;width:min(420px,100%)}
+.stack{display:grid;gap:18px;justify-items:center;width:100%}
+.cap{font-size:14px;color:var(--ink-2);text-align:center;margin-top:12px}
+
+/* confidence dots */
+.dots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+.dot{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px}
+.dot i{display:block;width:16px;height:16px;border-radius:50%;margin-bottom:10px}
+.dot b{display:block}
+.dot span{font-size:14.5px;color:var(--ink-2);line-height:1.4;display:block;margin-top:2px}
+.kinds{display:grid;gap:12px;margin-top:22px}
+.kind{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 18px}
+.kind b{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px}
+.kind span{font-size:16px}
+
+/* radar layer switch */
+.layers{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+.layers button{font:600 14.5px/1 var(--font);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;border-radius:999px;cursor:pointer;min-height:44px}
+.layers button[aria-pressed="true"]{background:var(--peach);border-color:var(--accent)}
+.layerpics img{display:none}
+.layerpics img.on{display:block}
+.layertext{min-height:4.6em;margin-top:18px;text-align:center;color:var(--ink-2);font-size:16px;max-width:30em}
+
+/* instruments card */
+.link-demo{margin-top:20px;display:grid;gap:10px}
+.gesture{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px}
+.gesture svg{width:34px;height:34px;color:var(--accent)}
+
+/* sources gallery */
+.gallery{justify-content:center;display:flex;gap:18px;overflow-x:auto;padding:8px 4px 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.gallery.one{justify-content:center}
+.gallery .phone{width:280px;flex:none;scroll-snap-align:start}
+.centerhead{text-align:center;max-width:44em;margin:0 auto 34px}
+.centerhead h2{font-size:clamp(30px,4vw,46px);margin:10px 0 16px}
+.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.chap.band .wrap{display:block}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.chap.band:not(#radar):not(#devices):not(#coverage) .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+
+/* coverage */
+.cover{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.country{background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.country h3{font-size:22px;margin-bottom:8px}
+.country p{color:var(--ink-2);font-size:16px}
+.country .x{margin-top:14px}
+.flagline{height:6px;border-radius:3px;margin-bottom:16px}
+
+/* devices */
+.devices{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.device{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.device h3{font-size:24px;margin-bottom:8px}
+.device p{color:var(--ink-2)}
+.widgetpic{margin-top:18px;max-width:440px;width:100%;height:auto;border-radius:24px;box-shadow:var(--shadow)}
+.watches{display:grid;grid-template-columns:repeat(2,minmax(0,150px));gap:14px;margin-top:18px}
+.watches .watch{width:150px;height:150px;padding:6px}
+
+/* mode chapter */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.modecard{border-radius:var(--radius);padding:26px;border:1.5px solid var(--line);background:var(--ground)}
+.modecard.on{border-color:var(--accent);background:var(--peach)}
+.modecard h3{font-size:26px;margin-bottom:10px}
+.modecard ul{padding-left:18px;margin:12px 0 0;display:grid;gap:6px;color:var(--ink-2);font-size:16px}
+.always{margin-top:18px;border-radius:20px;background:var(--surface);padding:18px 22px;border:1px solid var(--line)}
+.always b{display:block;margin-bottom:4px}
+
+footer{padding:56px 0 80px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px}
+footer .wrap{display:grid;gap:10px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+html:not(.js) .rv{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero .wrap,.chap .wrap,.chap.band:not(#radar):not(#devices):not(#coverage) .wrap,.two{grid-template-columns:1fr;gap:34px}
+  .chap.flip .art{order:0}
+  .heroart{min-height:0;padding-bottom:64px}
+  .heroart .phone{transform:none}
+  .f1{left:0;right:0;margin:0 auto;bottom:0;width:min(330px,86vw)}
+  .cover,.devices,.modes,.dots{grid-template-columns:1fr}
+  .chap{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Nimbus, back to the top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 24a6 6 0 0 1-.6-11.97A8 8 0 0 1 23.7 10.6 5.5 5.5 0 0 1 23 24z" fill="var(--accent)"/></svg>
+      Nimbus
+    </a>
+    <nav class="langs" aria-label="Jazyk">
+      <a href="../" hreflang="en" lang="en">EN</a><a href="./" hreflang="cs" lang="cs" aria-current="true">CS</a><a href="../sv/" hreflang="sv" lang="sv">SV</a>
+    </nav>
+    <div class="modeswitch" role="group" aria-label="Úroveň detailů">
+      <small id="modehint"></small>
+      <div class="seg">
+        <button type="button" data-mode="user" aria-pressed="true">Uživatel</button>
+        <button type="button" data-mode="expert" aria-pressed="false">Expert</button>
+      </div>
+    </div>
+  </div>
+  <nav class="chapters" aria-label="Kapitoly">
+    <div class="wrap">
+      <a href="#now">Teď</a><a href="#trust">Důvěra</a><a href="#nearby">Okolní stanice</a><a href="#radar">Radar</a><a href="#charts">Grafy</a><a href="#brief">Shrnutí dne</a><a href="#warnings">Varování</a><a href="#aurora">Záře</a><a href="#places">Místa</a><a href="#devices">Widget a hodinky</a><a href="#sources">Zdroje</a><a href="#coverage">Kde funguje</a><a href="#modes">Uživatel a Expert</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Počasí, které říká, jak moc si je jisté</p>
+      <h1>Potřebuju bundu, když <em>teď vyjdu ven?</em></h1>
+      <p class="lead">Nimbus odpovídá na tuhle jednu otázku jednoduchými slovy, dřív než otevřeš cokoliv dalšího. U každé odpovědi řekne, jak moc se jí dá věřit. Žádný účet, žádné reklamy, z telefonu nic neodchází.</p>
+      <ul class="pledges">
+        <li>Bez účtu</li><li>Bez reklam</li><li>Bez sledování</li><li>Nikdy vymyšlené číslo</li>
+      </ul>
+      <p class="lead" style="margin-top:26px;font-size:16px" data-only="user">Tahle prohlídka ukazuje aplikaci v režimu <b>Uživatel</b>, tak ji používá většina lidí. Nahoře přepni na <b>Expert</b> a uvidíš zdroje, vzorce a délky kroků za každým číslem.</p>
+      <p class="lead" style="margin-top:26px;font-size:16px" data-only="expert">Čteš prohlídku v režimu <b>Expert</b>. Rámečky s čárkovaným okrajem ukazují, co aplikace v režimu Expert přidává: názvy zdrojů, vzorce a délky kroků.</p>
+    </div>
+    <div class="heroart">
+      <figure class="phone"><img src="../img/cs/now.webp" alt="Obrazovka Teď: Sucho aspoň 30 h, 1 stupeň, pod tím předpověď na další dny" width="640" height="1216" data-user="../img/cs/now.webp" data-expert="../img/cs/e_now.webp"></figure>
+      <figure class="float f1 rv"><img src="../img/cs/p_nearby.webp" alt="Řádek z horní karty: měřicí stanice v okolí se teď liší o 6 stupňů" width="1000" height="148"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 1 NOW -->
+<section class="chap" id="now">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">01 · TEĎ</p>
+      <h2>Nejdřív odpověď. Podrobnosti, když se zeptáš.</h2>
+      <p class="lead">Otevřeš aplikaci a horní karta už říká, co přinesou nejbližší hodiny: sucho, déšť, vítr, mlhu. Jedna velká teplota a jedna řádka o tom, jak to bude opravdu cítit.</p>
+      <ul class="can">
+        <li><span><b>Přečti si verdikt</b> - „Sucho aspoň 30 h“ nebo „Déšť za 40 min“, s barevnou tečkou, jak moc mu věřit.</span></li>
+        <li><span><b>Podívej se na dalších 24 hodin jako na pás</b> - každá hodina je obarvená podle jistoty předpovědi a je vyznačený konec dosahu radaru.</span></li>
+        <li><span><b>Projdi další dny</b> - nejnižší a nejvyšší teplota, vítr, srážky a tečka spolehlivosti pro každý den. Den rozbal pro víc podrobností.</span></li>
+        <li><span><b>Stáhni dolů pro obnovení</b>, nebo klepni na šipku. Klepnutím na dlaždici větru nebo tlaku skočíš rovnou na její graf.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Pod verdiktem, jak se spolehlivost počítá a proč zhruba tři hodiny dopředu klesá.</li>
+          <li>Model za místem, třeba <code>MET Nordic 1 km</code>, v seznamu míst.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><figure class="phone"><img id="nowpic" src="../img/cs/now.webp" alt="Obrazovka Teď v aplikaci" width="640" height="1216" data-user="../img/cs/now.webp" data-expert="../img/cs/e_now.webp"></figure></div>
+  </div>
+</section>
+
+<!-- 2 TRUST -->
+<section class="chap flip" id="trust">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">02 · DŮVĚRA</p>
+      <h2>Poctivě, ne sebejistě.</h2>
+      <p class="lead">Většina počasí dává každému číslu stejnou klidnou autoritu. Nimbus ne. Když zdroj nemá co říct, řekne to, místo aby ukázal nulu. Když jen odhaduje hodinu mezi dvěma skutečnými, taky to řekne.</p>
+      <div class="dots">
+        <div class="dot"><i style="background:var(--good)"></i><b>Spolehlivé</b><span>Nezávislé běhy modelu se shodují. Počítej s tím.</span></div>
+        <div class="dot"><i style="background:var(--mid)"></i><b>Střední</b><span>Většinou se shodují. Bunda v tašce nic nestojí.</span></div>
+        <div class="dot"><i style="background:var(--bad)"></i><b>Slabé</b><span>Neshodují se. Ber to jako náznak.</span></div>
+      </div>
+      <div class="kinds">
+        <div class="kind"><b>Naměřeno</b><span>„Naměřeno radarem. Není to předpověď.“</span></div>
+        <div class="kind"><b>Dopočítáno</b><span>„Dopočítáno mezi hodinami modelu 10:00 a 11:00. Model sám tuhle chvíli nepočítá.“</span></div>
+        <div class="kind"><b>Předpověď</b><span>„Předpověď z modelu, ne z radaru.“</span></div>
+      </div>
+      <p style="margin-top:18px;color:var(--ink-2)">Tyhle tři se v obou režimech ukazují vždy jinak. Naměřený obraz nikdy nevypadá jako předpovězený.</p>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Spolehlivost je shoda souboru modelů: kolik nezávislých běhů říká totéž. V Česku a Německu je to <code>ICON-D2</code>, 20 členů, asi dva dny, potom <code>ECMWF IFS025</code>, 51 členů. Jinde je to ECMWF.</li>
+          <li>Není to šance na déšť. Jistý odhad třicetiprocentní šance deště není třicetiprocentně jistý odhad.</li>
+          <li>Hodnota, kterou aplikace neumí změřit, se ukáže jako chybějící, nikdy jako nízká spolehlivost.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv">
+      <div class="stack">
+        <figure class="float"><img src="../img/cs/p_now_conf.webp" alt="Pás spolehlivosti na 24 hodin" width="960" height="271" data-user="../img/cs/p_now_conf.webp" data-expert="../img/cs/p_e_now_conf.webp"></figure>
+        <figure class="float"><img src="../img/cs/p_verdict.webp" alt="Verdikt Sucho aspoň 30 h se zelenou tečkou: spolehlivé nejbližších 115 minut" width="1000" height="154"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 NEARBY -->
+<section class="chap" id="nearby">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">03 · OKOLNÍ STANICE <span class="tag">Další verze</span></p>
+      <h2>„Můj teploměr ukazuje 5, aplikace říká 8.“</h2>
+      <p class="lead">Za jasné klidné noci se vzduch může během pár kilometrů lišit o několik stupňů: moře drží pobřeží výš a studený vzduch stéká do údolí. Když se měřicí stanice v okolí liší o 3 stupně a víc, Nimbus to napíše na horní kartě a jmenuje nejteplejší a nejchladnější.</p>
+      <ul class="can">
+        <li><span><b>Klepni na jméno stanice</b> a otevře se stránka státní meteorologické služby s touto stanicí už vybranou.</span></li>
+        <li><span><b>Podrž ho</b> a otevře se syrové měření za tím číslem.</span></li>
+        <li><span><b>Předpověď nikdy neopravuje.</b> Říká jen, jaká je to noc, takže studená zahrada není překvapení.</span></li>
+      </ul>
+      <div class="link-demo">
+        <div class="gesture">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V12m0-1a1.5 1.5 0 0 1 3 0v4.5A5.5 5.5 0 0 1 12.5 21h-1.2A5.5 5.5 0 0 1 7 18.9L4.2 14.6a1.5 1.5 0 0 1 2.4-1.8L9 15"/></svg>
+          <span><b>Klepnutí</b> - stránka stanice s teplotou vzduchu</span>
+        </div>
+        <div class="gesture">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="3.2"/></svg>
+          <span><b>Podržení</b> - syrové měření za poslední hodinu</span>
+        </div>
+      </div>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Aspoň tři stanice do 60 km, každá s měřením z posledních dvou hodin. S menším počtem odpověď není a karta mlčí, místo aby vzduch označila za rovnoměrný.</li>
+          <li>Tři stupně jsou stejný práh, který aplikace používá pro „potřebuju bundu, nebo ne“.</li>
+          <li>Zdroj: síť stanic SMHI, hodinová měření. Mimo Švédsko zatím odpověď není.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv">
+      <div class="stack">
+        <figure class="float"><img src="../img/cs/p_nearby.webp" alt="Horní karta: Měřicí stanice v okolí se teď liší o 6 °C, Lungö 3, Västmarkum minus 3" width="1000" height="148"></figure>
+        <p class="cap">Jména stanic jsou odkazy. Dlouhé podržení vede k samotným datům.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 RADAR -->
+<section class="chap band flip" id="radar">
+  <div class="wrap">
+    <div class="centerhead rv">
+      <p class="num">04 · RADAR</p>
+      <h2>Tvar toho, co přichází.</h2>
+      <p class="lead">Mapa s časovým posuvníkem. Táhni zpět a uvidíš, kde pršelo, dopředu a uvidíš, kam déšť míří. Vedle naměřeného deště jsou čtyři předpovědní vrstvy a pátá ukazuje polární záři.</p>
+    </div>
+    <div class="two">
+      <div class="rv">
+        <ul class="can" style="margin-top:0">
+          <li><span><b>Přehraj, zastav, posouvej.</b> Posuvník sahá až 10 hodin zpět a dopředu tak daleko, jak nastavíš, na severu asi dva dny.</span></li>
+          <li><span><b>Vyber vrstvu</b> - srážky, teplota, vítr, oblačnost. Oblačnost jde rozdělit na nízkou, střední a vysokou.</span></li>
+          <li><span><b>Déšť nebo sníh.</b> Jedním přepínačem nad mapou oddělíš intenzitu od druhu srážek.</span></li>
+          <li><span><b>Čti legendu.</b> Barevná stupnice je přes mapou a říká jednotku. Teplotní stupnice se láme u nuly.</span></li>
+          <li><span><b>Zoom jednou rukou.</b> Dvojité klepnutí přiblíží, nebo dvakrát klepni, nech palec dole a táhni.</span></li>
+          <li><span><b>Pod mapou věta</b> jednoduchými slovy: „Nejbližší srážky 41 km na sever. Naměřeno radarem. Není to předpověď.“</span></li>
+        </ul>
+        <div class="x" data-only="expert">
+          <h3>Expert přidává</h3>
+          <ul>
+            <li>Naměřený obraz je radarová kompozice SMHI se snímky po pěti minutách. Intenzita deště se počítá z odrazivosti vzorcem <code>Z = 200·R^1.6</code> a nad 55 dBZ je omezená, protože kroupy odrážejí mnohem víc než voda.</li>
+            <li>Předpovědní vrstvy jsou pole modelu MET, 1 km, kreslené z jejich mapového serveru. Předpovědní radarové snímky zdarma nikdo nepublikuje, takže aplikace nepředstírá, že je má.</li>
+            <li>Přední polovina posuvníku je v prvních hodinách dopočítaný radar, pak hodinový model.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="art rv">
+        <div class="stack">
+          <div class="layers" role="group" aria-label="Vrstva radaru">
+            <button type="button" data-layer="rain" aria-pressed="true">Srážky</button>
+            <button type="button" data-layer="temp" aria-pressed="false">Teplota</button>
+            <button type="button" data-layer="wind" aria-pressed="false">Vítr</button>
+            <button type="button" data-layer="cloud" aria-pressed="false">Oblačnost</button>
+            <button type="button" data-layer="aurora" aria-pressed="false">Záře</button>
+          </div>
+          <figure class="phone layerpics">
+            <img class="on" data-l="rain" src="../img/cs/radar_rain.webp" alt="Radar, vrstva srážek" width="640" height="1216">
+            <img data-l="temp" src="../img/cs/radar_temp.webp" alt="Radar, vrstva teploty" width="640" height="1216" loading="lazy">
+            <img data-l="wind" src="../img/cs/radar_wind.webp" alt="Radar, vrstva větru se šipkami" width="640" height="1216" loading="lazy">
+            <img data-l="cloud" src="../img/cs/radar_cloud.webp" alt="Radar, vrstva oblačnosti" width="640" height="1216" loading="lazy">
+            <img data-l="aurora" src="../img/cs/radar_aurora.webp" alt="Radar, vrstva polární záře" width="640" height="1216" loading="lazy">
+          </figure>
+          <p class="layertext" id="layertext" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 CHARTS -->
+<section class="chap" id="charts">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">05 · GRAFY</p>
+      <h2>Den jako čára.</h2>
+      <p class="lead">Teplota, srážky, vítr a oblačnost, pod sebou, na jedné časové ose. Červená čára značí teď a poznámka říká, jak daleko dozadu data sahají a že starší část je model.</p>
+      <ul class="can">
+        <li><span><b>Vyber okno</b> - 12 hodin, 24 hodin, 3 dny nebo 7 dnů.</span></li>
+        <li><span><b>Ukaž jedním prstem</b> a přečteš přesnou hodnotu v ten okamžik.</span></li>
+        <li><span><b>Dvěma prsty roztáhni nebo posuň</b> okno. Plochá noc si otevře stupnici z dvaceti stupňů na tři, takže tvar vynikne sám.</span></li>
+        <li><span><b>Přicházíš z Teď?</b> Klepnutí na dlaždici větru nebo tlaku tě dovede na její graf.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Řádek nad grafy říká, jak daleko dozadu data sahají a že starší část je model, ne to, co aplikace viděla.</li>
+          <li>Osa hodnot se počítá z toho, co je v okně, takže přiblížení nikdy nenechá zploštělou čáru.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img src="../img/cs/charts.webp" alt="Grafy teploty, srážek a větru za 24 hodin" width="640" height="1216" loading="lazy"></figure></div></div>
+  </div>
+</section>
+
+<!-- 6 BRIEF -->
+<section class="chap flip band" id="brief">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">06 · SHRNUTÍ DNE</p>
+      <h2>Tvůj den po částech a co si vzít na sebe.</h2>
+      <p class="lead">Jedna obrazovka, která pro dopoledne, poledne, odpoledne a večer říká, co přinese počasí a co si na to obléct. Každou část porovná se stejnou částí včerejška a ukáže rozpětí minulé noci.</p>
+      <ul class="can">
+        <li><span><b>Oblouk slunce</b> s východem, západem a délkou dne a s nejnižším a nejvyšším okamžikem dne.</span></li>
+        <li><span><b>Osa od poslední noci do dnešní</b> se značkou pro teď. Každá část má teplotu, srážky, vítr, řádek o oblékání a včerejšek.</span></li>
+        <li><span><b>Ranní upozornění</b> v čase, který zvolíš, aby odpověď přišla dřív, než vyjdeš.</span></li>
+        <li><span><b>Klepni na část</b> a skočíš na stejný čas v Teď.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Včerejší čísla pocházejí z vlastního záznamu aplikace o počasí, které už proběhlo, čteného podle místa. Část bez zaznamenaného měření nezobrazí nic.</li>
+          <li>S oprávněním přesného budíku upozornění odejde v zvolenou minutu, jinak během 30minutového cyklu obnovení. Nastavení říká, které je aktivní.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img src="../img/cs/brief.webp" alt="Shrnutí dne: oblouk slunce a den po částech" width="640" height="1216" loading="lazy"></figure></div></div>
+  </div>
+</section>
+
+<!-- 7 WARNINGS -->
+<section class="chap" id="warnings">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">07 · VAROVÁNÍ</p>
+      <h2>Oficiální varování pro každé místo, které máš.</h2>
+      <p class="lead">Co platí tam, kde jsi, a u každého tvého místa, ve stejném pořadí jako v Nastavení. „Nic neplatí“ se řekne rovnou a řekne se i, kdo odpovídá.</p>
+      <ul class="can">
+        <li><span><b>Švédsko:</b> varování od SMHI. <b>Česko a Německo:</b> národní služby přes MeteoAlarm.</span></li>
+        <li><span><b>Upozornění</b> na blížící se déšť, silný vítr a oficiální varování, aby ti to došlo, i když aplikaci neotevřeš.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>SMHI publikuje jeden zdroj pro celou zemi. Varování pokrývá nakreslenou oblast, takže aplikace zjišťuje, jestli tvoje místo leží uvnitř.</li>
+          <li>Upozornění na vítr používá stejný práh nárazů jako rada k oblékání a drží se zpátky, když si aplikace není dost jistá, aby tě budila.</li>
+          <li>Záznam skutečně odeslaných upozornění je tu vidět jen v režimu Expert.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img id="warnpic" src="../img/cs/warnings.webp" alt="Obrazovka Varování se dvěma skupinami míst" width="640" height="1216" loading="lazy" data-user="../img/cs/warnings.webp" data-expert="../img/cs/e_warnings.webp"></figure></div></div>
+  </div>
+</section>
+
+<!-- 8 AURORA -->
+<section class="chap flip band" id="aurora">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">08 · POLÁRNÍ ZÁŘE</p>
+      <h2>Rozsvítí se dnes v noci nebe?</h2>
+      <p class="lead">Poslední vrstva na radaru není počasí, ale polární záře. Otevře se na velké noční mapě s ovalem záře a nad ní je šance, že ji nad svým místem uvidíš, jednoduchými slovy.</p>
+      <ul class="can">
+        <li><span><b>Nejdřív jedno číslo:</b> šance na polární záři nad hlavou asi za hodinu a aktivita teď jedním slovem - slabá, střední, silná, velmi silná.</span></li>
+        <li><span><b>Další noci,</b> každá na jednom řádku: „Dnes v noci“, „Zítra v noci“, pak podle dne v týdnu, s hodinami, kdy může být vidět.</span></li>
+        <li><span><b>Skutečná místa na mapě,</b> abys oval mohl porovnat s městy, která znáš.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Data z NOAA SWPC: model OVATION pro oval, index Kp pro aktivitu. Rozsahy aktivity podle NOAA: Kp 0-2 slabá, 3-5 střední, 6-7 silná, 8-9 velmi silná.</li>
+          <li>Oval je kreslený plynule. Každá vykreslená hodnota leží mezi čtyřmi zveřejněnými body mřížky. Barvy: zelená od 5 %, žlutá 25, červená 60 a výš.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img src="../img/cs/radar_aurora.webp" alt="Pohled na polární záři: 0 procent šance nad místem, aktivita slabá, tmavá mapa severu" width="640" height="1216" loading="lazy"></figure></div></div>
+  </div>
+</section>
+
+<!-- 9 PLACES -->
+<section class="chap" id="places">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">09 · MÍSTA</p>
+      <h2>Jedno místo, všude.</h2>
+      <p class="lead">Vyber místo, o kterém aplikace je, nebo ji nech sledovat tebe. Cokoliv zvolíš, je místo, o kterém mluví obrazovky, widget i upozornění, takže si nikdy neodporují.</p>
+      <ul class="can">
+        <li><span><b>Měj několik míst</b> v pořadí, jaké chceš. Pět českých míst je tam od začátku a Lunde, Kramfors a Härnösand pro švédskou domovskou oblast.</span></li>
+        <li><span><b>Sledovat mou polohu</b> a předpověď se přesune s tebou. Vrátíš se do aplikace a zeptá se, kde jsi.</span></li>
+        <li><span><b>Žádná vymyšlená jména ulic.</b> Adresa se ukáže jen u přesné polohy, protože název ulice pro zaokrouhlenou polohu by byl vymyšlený.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert přidává</h3>
+        <ul>
+          <li>Pod každým místem model, který za ně odpovídá, třeba <code>MET Nordic 1 km</code>.</li>
+          <li>Který zdroj mluví za místo, se rozhoduje podle souřadnic ze skutečného pokrytí modelu, nikdy podle země.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="float"><img id="placepic" src="../img/cs/p_places.webp" alt="Místa: předpověď pro Lunde s přepínačem sledování mé polohy" width="900" height="656" loading="lazy"></figure>
+    <figure class="float"><img src="../img/cs/p_radar_legend.webp" alt="Legenda radaru a věta pod mapou" width="960" height="507" loading="lazy" data-user="../img/cs/p_radar_legend.webp" data-expert="../img/cs/p_e_radar_notes.webp"></figure></div></div>
+  </div>
+</section>
+
+<!-- 10 DEVICES -->
+<section class="chap band" id="devices">
+  <div class="wrap">
+    <div class="centerhead rv">
+      <p class="num">10 · BEZ OTEVÍRÁNÍ APLIKACE</p>
+      <h2>Odpověď tam, kam se už díváš.</h2>
+      <p class="lead">První úkol aplikace je odpovědět dřív, než si obuješ boty. K tomu je widget a hodinky, mapa je až třetí.</p>
+    </div>
+    <div class="devices">
+      <div class="device rv">
+        <h3>Widget na ploše</h3>
+        <p>Čas, datum a počasí na první pohled: teplota teď, jak se cítí a nejbližší hodiny, každá s tečkou spolehlivosti. Vyber si styl, velikost textu, místo, spodní řádek a co otevře klepnutí.</p>
+        <img class="widgetpic" src="../img/cs/widget.webp" alt="Widget na ploše: datum, hodiny, Lunde s 1,5 stupně a šest hodin předpovědi" width="900" height="463" loading="lazy">
+        <p style="font-size:14px;margin-top:10px">Widget na ploše ve velkém stylu s hodinami.</p>
+        <div class="x" data-only="expert"><h3>Expert přidává</h3><p>Widget a upozornění používají stejné místo jako aplikace. Jejich text nemá jednodušší dvojče, je stejný v obou režimech.</p></div>
+      </div>
+      <div class="device rv">
+        <h3>Hodinky s Wear OS</h3>
+        <p>Odpověď, teplota, vítr, hodiny a týden dopředu, varování a slunce, plus dlaždice a komplikace pro ciferník. Data posílá telefon. Stránky si uspořádáš v Nastavení.</p>
+        <div class="watches">
+          <figure class="watch"><img src="../img/watch/cs/w1.webp" alt="Hodinky: Sucho aspoň 22 h, 8,2 stupně" width="466" height="466" loading="lazy"></figure>
+          <figure class="watch"><img src="../img/watch/cs/w2.webp" alt="Hodinky: hodiny" width="466" height="466" loading="lazy"></figure>
+          <figure class="watch"><img src="../img/watch/cs/w3.webp" alt="Hodinky: týden" width="466" height="466" loading="lazy"></figure>
+          <figure class="watch"><img src="../img/watch/cs/w4.webp" alt="Hodinky: dlaždice" width="466" height="466" loading="lazy"></figure>
+        </div>
+        <div class="x" data-only="expert"><h3>Expert přidává</h3><p>Hodinky se otevřou na Teď, pak následují Hodiny, Týden a Varování v pořadí, které nastavíš. Stránka Varování se objeví jen tehdy, když se o varováních pro místo něco ví.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 SOURCES -->
+<section class="chap" id="sources">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">11 · ZDROJE</p>
+      <h2>Odkud se bere co.</h2>
+      <p class="lead">Jedna obrazovka vypisuje každý zdroj, co poskytuje a který odpovídá za místo, na které se díváš. Když zdroj neodpoví, aplikace to řekne.</p>
+    </div>
+    <div class="gallery one rv" data-only="user" aria-label="Obrazovka Zdroje">
+      <figure class="phone"><img src="../img/cs/sources.webp" alt="Obrazovka Zdroje: nejbližší 2 hodiny, 2 hodiny až 2,5 dne, 2,5 až 15 dnů" width="640" height="1216" loading="lazy"></figure>
+    </div>
+    <div class="gallery rv" data-only="expert" aria-label="Obrazovka Zdroje v režimu Expert">
+      <figure class="phone"><img src="../img/cs/e_sources0.webp" alt="Zdroje v režimu Expert, první část: odkud se bere co a nejbližší dvě hodiny" width="640" height="1216" loading="lazy"></figure>
+      <figure class="phone"><img src="../img/cs/e_sources.webp" alt="Zdroje v režimu Expert, druhá část" width="640" height="1216" loading="lazy"></figure>
+      <figure class="phone"><img src="../img/cs/e_sources2.webp" alt="Zdroje v režimu Expert, třetí část: spolehlivost u každého řádku" width="640" height="1216" loading="lazy"></figure>
+      <figure class="phone"><img src="../img/cs/e_sources3.webp" alt="Zdroje v režimu Expert, čtvrtá část: meteostanice a radar jako čísla" width="640" height="1216" loading="lazy"></figure>
+    </div>
+    <p class="cap" data-only="user">Nahoře přepni na Expert a uvidíš, jak se každé číslo počítá a co který zdroj říct nedokáže.</p>
+    <p class="cap" data-only="expert">Každá karta má Co, Jak a Pozor. Pozor je ta poctivá část: co zdroj říct nedokáže.</p>
+  </div>
+</section>
+
+<!-- 12 COVERAGE -->
+<section class="chap band" id="coverage">
+  <div class="wrap">
+    <div class="centerhead rv">
+      <p class="num">12 · KDE FUNGUJE</p>
+      <h2>Nejlepší tam, kde vznikla, dobrá i za hranicemi.</h2>
+      <p class="lead">Nimbus vznikl pro dvě oblasti a tam je nejpřesnější. Umí ale i zbytek Severu, celé Česko a Německo.</p>
+    </div>
+    <div class="cover">
+      <div class="country rv"><div class="flagline" style="background:linear-gradient(90deg,#0f6bb5 60%,#e8b100 60%)"></div><h3>Sever</h3><p>Velmi jemná buňka předpovědi, radarový nowcast po pěti minutách na dvě hodiny dopředu a oficiální varování od SMHI ve Švédsku. Nejpřesnější kolem Kramforsu a Härnösandu.</p>
+        <div class="x" data-only="expert"><h3>Expert přidává</h3><p>MET Nordic, buňka asi 1 km. Za několik dní, kam jemné modely sahají, přebírá ECMWF a aplikace řekne, odkdy.</p></div></div>
+      <div class="country rv"><div class="flagline" style="background:linear-gradient(90deg,#fff 33%,#c8102e 33% 66%,#11457e 66%);border:1px solid var(--line)"></div><h3>Česko</h3><p>Vlastní velmi jemný model a radar české meteorologické služby, s vlastním nowcastem na hodinu dopředu. Ploskov, Lužná, Rakovník, Kladno a Praha jsou v seznamu míst od začátku.</p>
+        <div class="x" data-only="expert"><h3>Expert přidává</h3><p>CHMI ALADIN, asi 1 km, po hodinách. Varování přes MeteoAlarm.</p></div></div>
+      <div class="country rv"><div class="flagline" style="background:linear-gradient(180deg,#111 33%,#dd0000 33% 66%,#ffce00 66%);"></div><h3>Německo</h3><p>Model a radar německé meteorologické služby, s nowcastem na dvě hodiny dopředu.</p>
+        <div class="x" data-only="expert"><h3>Expert přidává</h3><p>DWD ICON-D2 s buňkou 2,2 km, v Německu po čtvrthodinách. Radarový nowcast RADVOR.</p></div></div>
+    </div>
+    <p class="cap" style="margin-top:22px">Aplikace mluví česky, anglicky a švédsky, jazyk se přepíná přímo v aplikaci.</p>
+  </div>
+</section>
+
+<!-- 13 MODES -->
+<section class="chap" id="modes">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">13 · UŽIVATEL A EXPERT</p>
+      <h2>Tolik detailu, kolik chceš.</h2>
+      <p class="lead">Tatáž aplikace ve dvou úrovních. Jeden přepínač v Nastavení, pod „Úroveň detailů“. Stránka, kterou čteš, má stejný přepínač nahoře.</p>
+    </div>
+    <div class="modes">
+      <div class="modecard rv" id="mc-user"><h3>Uživatel</h3><p>Ukáže, co potřebuješ k rozhodnutí.</p><ul><li>Jednoduchá slova a jedna odpověď na obrazovku</li><li>Tečky spolehlivosti a věty</li><li>Poznámky, které říkají, na jaký druh obrazu se díváš</li></ul></div>
+      <div class="modecard rv" id="mc-expert"><h3>Expert</h3><p>Přidá práci za číslem.</p><ul><li>Názvy zdrojů a modelů</li><li>Vzorce a délky kroků</li><li>Poznámky, jak se věci počítají, a výhrady</li></ul></div>
+    </div>
+    <div class="always rv"><b>V obou režimech zůstává jednoduché</b>Jestli je něco naměřené, dopočítané, nebo předpovězené. Jak moc se předpovědi dá věřit. Že zdroj chybí. Zdroj mapy a licence.</div>
+    <div class="stack rv" style="margin-top:34px"><figure class="phone" style="width:min(300px,80vw)"><img src="../img/cs/settings_detail.webp" alt="Nastavení: Úroveň detailů nastavená na Uživatel" width="640" height="1216" loading="lazy"></figure></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Nimbus</b> - bez účtu, bez reklam, bez telemetrie. Všechno zůstává v telefonu.</p>
+    <p><a href="https://mdiskuze.github.io/nimbus/privacy-policy.html">Zásady ochrany soukromí</a> · <a href="https://github.com/mdiskuze/nimbus">Nahlásit problém</a></p>
+    <p>Data: MET Norway, Open-Meteo s modely DWD, CHMI a ECMWF, SMHI, MeteoAlarm, NOAA SWPC, GeoNames, OpenStreetMap, MapTiler.</p>
+  </div>
+</footer>
+
+<script>
+window.T={hint:{user:"Jednoduchá slova. Přepni pro zdroje a vzorce.",expert:"Přidány zdroje, vzorce a délky kroků."},layers:{rain:"Déšť naměřený radarem. Není to předpověď. Přepínač nad mapou střídá intenzitu a déšť nebo sníh.",temp:"Teplota v oblasti z modelu. Stupnice se láme u nuly, takže chladno a mírno nikdy nemají stejnou barvu.",wind:"Vítr v metrech za sekundu, šipky ukazují, kam vane.",cloud:"Oblačnost z modelu, ne ze satelitu. Podle potřeby ji rozděl na nízkou, střední a vysokou.",aurora:"Šance na polární záři nad tvým místem asi za hodinu, na mapě severu."}};
+document.documentElement.classList.add('js');
+(function(){
+  var root=document.documentElement;
+  var hint=T.hint;
+  function setMode(m){
+    root.setAttribute('data-mode',m);
+    document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mode===m?'true':'false')});
+    var h=document.getElementById('modehint'); if(h) h.textContent=hint[m];
+    document.querySelectorAll('img[data-user]').forEach(function(i){i.src=i.dataset[m]});
+    var u=document.getElementById('mc-user'),e=document.getElementById('mc-expert');
+    if(u&&e){u.classList.toggle('on',m==='user');e.classList.toggle('on',m==='expert')}
+    try{localStorage.setItem('nimbus-tour-mode',m)}catch(x){}
+  }
+  var start='user';
+  try{var q=new URLSearchParams(location.search).get('mode'); var s=localStorage.getItem('nimbus-tour-mode'); start=(q==='expert'||q==='user')?q:(s==='expert'?'expert':'user')}catch(x){}
+  setMode(start);
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)})});
+
+  /* radar layers */
+  var text=T.layers;
+  var lt=document.getElementById('layertext');
+  document.querySelectorAll('.layers button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.layers button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      document.querySelectorAll('.layerpics img').forEach(function(i){i.classList.toggle('on',i.dataset.l===b.dataset.layer)});
+      lt.textContent=text[b.dataset.layer];
+    });
+  });
+  lt.textContent=text.rain;
+
+  /* chapter highlight and reveal */
+  var links={};document.querySelectorAll('.chapters a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.12});
+    document.querySelectorAll('.rv').forEach(function(n){io.observe(n)});
+    var so=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){Object.keys(links).forEach(function(k){links[k].classList.toggle('on',k===e.target.id)});
+        var a=links[e.target.id]; if(a&&a.scrollIntoView){var nav=a.parentNode.parentNode; nav.scrollTo({left:a.offsetLeft-24,behavior:'smooth'})}}
+    })},{rootMargin:'-40% 0px -55% 0px'});
+    document.querySelectorAll('section.chap').forEach(function(s){so.observe(s)});
+  }else{document.querySelectorAll('.rv').forEach(function(n){n.classList.add('in')})}
+})();
+</script>
+</body>
+</html>

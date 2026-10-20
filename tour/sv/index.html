@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nimbus - vad den kan</title>
+<meta name="description" content="En guidad tur genom Nimbus, vädret som säger vad du ska ha på dig och hur säker den är.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sv_SE">
+<link rel="canonical" href="https://mdiskuze.github.io/nimbus/tour/sv/">
+<link rel="alternate" hreflang="en" href="https://mdiskuze.github.io/nimbus/tour/">
+<link rel="alternate" hreflang="cs" href="https://mdiskuze.github.io/nimbus/tour/cs/">
+<link rel="alternate" hreflang="sv" href="https://mdiskuze.github.io/nimbus/tour/sv/">
+<link rel="alternate" hreflang="x-default" href="https://mdiskuze.github.io/nimbus/tour/">
+<meta property="og:title" content="Nimbus - vad den kan">
+<meta property="og:description" content="Behöver jag jacka om jag går ut nu? En tur genom appen som säger hur säker den är.">
+<meta property="og:image" content="https://mdiskuze.github.io/nimbus/tour/img/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --ground:#fbf8f5; --surface:#f3efea; --surface-2:#ece6df; --ink:#1d1b19; --ink-2:#57514b; --line:#ddd5cc;
+  --accent:#8a5200; --accent-ink:#ffffff; --peach:#fbe2c8; --peach-2:#f6d2ac;
+  --good:#2e7d32; --mid:#a86b00; --bad:#b3261e; --rain:#1565c0;
+  --shadow:0 1px 2px rgba(60,40,20,.08),0 12px 32px -12px rgba(60,40,20,.28);
+  --radius:28px; --max:1120px;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#16130f; --surface:#211c17; --surface-2:#2b251f; --ink:#f3ebe3; --ink-2:#bdb2a6; --line:#3a322a;
+    --accent:#f0b56b; --accent-ink:#2a1700; --peach:#3a2a19; --peach-2:#4a3420; --shadow:0 12px 32px -12px rgba(0,0,0,.7);
+    --good:#7fd085; --mid:#e2a43b; --bad:#ff8a80; --rain:#7fb4ff;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:128px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 17px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent)}
+h1,h2,h3{line-height:1.12;letter-spacing:-.02em;margin:0}
+p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+/* mode switching: User hides what only Expert shows, and the other way round */
+html[data-mode="user"] [data-only="expert"]{display:none!important}
+html[data-mode="expert"] [data-only="user"]{display:none!important}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;min-height:64px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.brand svg{width:28px;height:28px}
+.langs{margin-left:auto;display:flex;gap:2px}
+.langs a{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--ink-2);text-decoration:none;padding:10px 9px;min-height:44px;display:inline-flex;align-items:center;border-radius:10px}
+.langs a[aria-current="true"]{color:var(--ink);background:var(--surface-2)}
+.langs a:hover{background:var(--surface)}
+.modeswitch{margin-left:0;display:flex;align-items:center;gap:10px}
+.modeswitch small{color:var(--ink-2);font-size:13px;max-width:210px;line-height:1.25;display:none}
+@media(min-width:900px){.modeswitch small{display:block}}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px}
+.seg button{font:600 15px/1 var(--font);border:0;background:transparent;color:var(--ink-2);padding:11px 18px;min-height:44px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.chapters{border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.chapters::-webkit-scrollbar{display:none}
+.chapters .wrap{display:flex;flex-wrap:nowrap;gap:4px;padding-top:6px;padding-bottom:6px}
+.chapters a{white-space:nowrap;text-decoration:none;color:var(--ink-2);font-size:14px;font-weight:600;padding:9px 12px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center}
+.chapters a:hover{background:var(--surface)}
+.chapters a.on{background:var(--peach);color:var(--ink)}
+
+/* hero */
+.hero{padding:56px 0 40px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(40px,6vw,68px);margin:14px 0 18px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--ink-2);max-width:34em}
+.pledges{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;padding:0;list-style:none}
+.pledges li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:15px;font-weight:600}
+.heroart{position:relative;min-height:560px;display:flex;justify-content:center}
+.heroart .phone{width:min(300px,64vw);transform:rotate(2deg)}
+.float{z-index:2;position:absolute;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--ground)}
+.float img{width:100%}
+.f1{width:min(300px,70vw);left:-4%;bottom:3%}
+.f2{width:min(260px,56vw);right:0;top:0}
+
+/* phone frame */
+.phone{margin:0;border-radius:40px;background:#1d1b19;padding:9px;box-shadow:var(--shadow);position:relative}
+.phone img{border-radius:32px;width:100%;height:auto;background:#fff}
+.watch{margin:0;border-radius:50%;background:#000;padding:8px;box-shadow:var(--shadow);width:200px;height:200px;flex:none}
+.watch img{border-radius:50%;width:100%;height:100%}
+
+/* chapters */
+.chap{padding:72px 0;border-top:1px solid var(--line)}
+.chap .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.chap.flip .art{order:-1}
+.num{font-size:14px;font-weight:800;color:var(--accent);letter-spacing:.1em}
+.chap h2{font-size:clamp(30px,4vw,46px);margin:10px 0 16px}
+.chap .lead{font-size:19px}
+.can{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:12px}
+.can li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.can li::before{content:"";width:22px;height:22px;margin-top:3px;border-radius:50%;background:var(--peach) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%238a5200' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.can b{font-weight:650}
+.x{margin-top:22px;border:1.5px dashed color-mix(in srgb,var(--accent) 55%,transparent);border-radius:20px;padding:16px 18px;background:color-mix(in srgb,var(--peach) 45%,transparent)}
+.x h3{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.x h3::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);transform:rotate(45deg)}
+.device .x h3,.country .x h3{font-size:12.5px;margin-bottom:8px}
+.x p,.x li{font-size:15.5px;color:var(--ink-2)}
+.x ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.x code,.mono{font:600 .92em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--surface-2);padding:1px 6px;border-radius:6px;color:var(--ink)}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:4px 10px;border-radius:999px;vertical-align:middle;margin-left:8px}
+.art{display:flex;justify-content:center;position:relative}
+.art .phone{width:min(320px,80vw)}
+.art .float{position:static;margin-top:18px;width:min(420px,100%)}
+.stack{display:grid;gap:18px;justify-items:center;width:100%}
+.cap{font-size:14px;color:var(--ink-2);text-align:center;margin-top:12px}
+
+/* confidence dots */
+.dots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+.dot{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px}
+.dot i{display:block;width:16px;height:16px;border-radius:50%;margin-bottom:10px}
+.dot b{display:block}
+.dot span{font-size:14.5px;color:var(--ink-2);line-height:1.4;display:block;margin-top:2px}
+.kinds{display:grid;gap:12px;margin-top:22px}
+.kind{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 18px}
+.kind b{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px}
+.kind span{font-size:16px}
+
+/* radar layer switch */
+.layers{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+.layers button{font:600 14.5px/1 var(--font);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:11px 16px;border-radius:999px;cursor:pointer;min-height:44px}
+.layers button[aria-pressed="true"]{background:var(--peach);border-color:var(--accent)}
+.layerpics img{display:none}
+.layerpics img.on{display:block}
+.layertext{min-height:4.6em;margin-top:18px;text-align:center;color:var(--ink-2);font-size:16px;max-width:30em}
+
+/* instruments card */
+.link-demo{margin-top:20px;display:grid;gap:10px}
+.gesture{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px}
+.gesture svg{width:34px;height:34px;color:var(--accent)}
+
+/* sources gallery */
+.gallery{justify-content:center;display:flex;gap:18px;overflow-x:auto;padding:8px 4px 24px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.gallery.one{justify-content:center}
+.gallery .phone{width:280px;flex:none;scroll-snap-align:start}
+.centerhead{text-align:center;max-width:44em;margin:0 auto 34px}
+.centerhead h2{font-size:clamp(30px,4vw,46px);margin:10px 0 16px}
+.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.chap.band .wrap{display:block}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.chap.band:not(#radar):not(#devices):not(#coverage) .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+
+/* coverage */
+.cover{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.country{background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.country h3{font-size:22px;margin-bottom:8px}
+.country p{color:var(--ink-2);font-size:16px}
+.country .x{margin-top:14px}
+.flagline{height:6px;border-radius:3px;margin-bottom:16px}
+
+/* devices */
+.devices{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.device{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.device h3{font-size:24px;margin-bottom:8px}
+.device p{color:var(--ink-2)}
+.widgetpic{margin-top:18px;max-width:440px;width:100%;height:auto;border-radius:24px;box-shadow:var(--shadow)}
+.watches{display:grid;grid-template-columns:repeat(2,minmax(0,150px));gap:14px;margin-top:18px}
+.watches .watch{width:150px;height:150px;padding:6px}
+
+/* mode chapter */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.modecard{border-radius:var(--radius);padding:26px;border:1.5px solid var(--line);background:var(--ground)}
+.modecard.on{border-color:var(--accent);background:var(--peach)}
+.modecard h3{font-size:26px;margin-bottom:10px}
+.modecard ul{padding-left:18px;margin:12px 0 0;display:grid;gap:6px;color:var(--ink-2);font-size:16px}
+.always{margin-top:18px;border-radius:20px;background:var(--surface);padding:18px 22px;border:1px solid var(--line)}
+.always b{display:block;margin-bottom:4px}
+
+footer{padding:56px 0 80px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px}
+footer .wrap{display:grid;gap:10px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+html:not(.js) .rv{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero .wrap,.chap .wrap,.chap.band:not(#radar):not(#devices):not(#coverage) .wrap,.two{grid-template-columns:1fr;gap:34px}
+  .chap.flip .art{order:0}
+  .heroart{min-height:0;padding-bottom:64px}
+  .heroart .phone{transform:none}
+  .f1{left:0;right:0;margin:0 auto;bottom:0;width:min(330px,86vw)}
+  .cover,.devices,.modes,.dots{grid-template-columns:1fr}
+  .chap{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Nimbus, back to the top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 24a6 6 0 0 1-.6-11.97A8 8 0 0 1 23.7 10.6 5.5 5.5 0 0 1 23 24z" fill="var(--accent)"/></svg>
+      Nimbus
+    </a>
+    <nav class="langs" aria-label="Språk">
+      <a href="../" hreflang="en" lang="en">EN</a><a href="../cs/" hreflang="cs" lang="cs">CS</a><a href="./" hreflang="sv" lang="sv" aria-current="true">SV</a>
+    </nav>
+    <div class="modeswitch" role="group" aria-label="Detaljnivå">
+      <small id="modehint"></small>
+      <div class="seg">
+        <button type="button" data-mode="user" aria-pressed="true">Användare</button>
+        <button type="button" data-mode="expert" aria-pressed="false">Expert</button>
+      </div>
+    </div>
+  </div>
+  <nav class="chapters" aria-label="Kapitel">
+    <div class="wrap">
+      <a href="#now">Nu</a><a href="#trust">Förtroende</a><a href="#nearby">Stationer i närheten</a><a href="#radar">Radar</a><a href="#charts">Grafer</a><a href="#brief">Dagens</a><a href="#warnings">Varningar</a><a href="#aurora">Norrsken</a><a href="#places">Platser</a><a href="#devices">Widget och klocka</a><a href="#sources">Källor</a><a href="#coverage">Där det fungerar</a><a href="#modes">Användare och Expert</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">En väderapp som säger hur säker den är</p>
+      <h1>Behöver jag jacka om jag <em>går ut nu?</em></h1>
+      <p class="lead">Nimbus svarar på just den frågan, med enkla ord, innan du öppnar något annat. Varje svar säger hur mycket det går att lita på. Inget konto, inga annonser, ingenting lämnar telefonen.</p>
+      <ul class="pledges">
+        <li>Inget konto</li><li>Inga annonser</li><li>Ingen spårning</li><li>Aldrig ett påhittat tal</li>
+      </ul>
+      <p class="lead" style="margin-top:26px;font-size:16px" data-only="user">Den här rundturen visar appen i läget <b>Användare</b>, så som de flesta använder den. Byt till <b>Expert</b> högst upp så ser du källorna, formlerna och stegen bakom varje tal.</p>
+      <p class="lead" style="margin-top:26px;font-size:16px" data-only="expert">Du läser rundturen i läget <b>Expert</b>. Rutor med streckad kant visar vad appen lägger till i Expertläget: källnamn, formler och steglängder.</p>
+    </div>
+    <div class="heroart">
+      <figure class="phone"><img src="../img/sv/now.webp" alt="Skärmen Nu: Torrt minst 30 h, 1 grad, med prognosen för kommande dagar under" width="640" height="1216" data-user="../img/sv/now.webp" data-expert="../img/sv/e_now.webp"></figure>
+      <figure class="float f1 rv"><img src="../img/sv/p_nearby.webp" alt="En rad från översta kortet: instrument i närheten skiljer sig 6 grader just nu" width="1000" height="148"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 1 NOW -->
+<section class="chap" id="now">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">01 · NU</p>
+      <h2>Först svaret. Detaljerna när du frågar.</h2>
+      <p class="lead">Du öppnar appen och översta kortet säger redan vad de närmaste timmarna bär med sig: torrt, regn, vind, dimma. En stor temperatur och en rad om hur det verkligen känns.</p>
+      <ul class="can">
+        <li><span><b>Läs beskedet</b> - ”Torrt minst 30 h” eller ”Regn om 40 min”, med en färgad prick för hur mycket du kan lita på det.</span></li>
+        <li><span><b>Se de nästa 24 timmarna som ett band</b> - varje timme är färgad efter hur säker prognosen är, och radarns räckvidd är markerad.</span></li>
+        <li><span><b>Titta på kommande dagar</b> - lägsta och högsta temperatur, vind, nederbörd och en tillförlitlighetsprick för varje dag. Öppna en dag för mer.</span></li>
+        <li><span><b>Dra nedåt för att uppdatera</b>, eller tryck på pilen. Tryck på rutan för vind eller tryck så hoppar du direkt till dess diagram.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Under beskedet: hur tillförlitligheten räknas ut och varför den sjunker ungefär tre timmar framåt.</li>
+          <li>Modellen bakom platsen, till exempel <code>MET Nordic 1 km</code>, i platslistan.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><figure class="phone"><img id="nowpic" src="../img/sv/now.webp" alt="Skärmen Nu i appen" width="640" height="1216" data-user="../img/sv/now.webp" data-expert="../img/sv/e_now.webp"></figure></div>
+  </div>
+</section>
+
+<!-- 2 TRUST -->
+<section class="chap flip" id="trust">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">02 · FÖRTROENDE</p>
+      <h2>Ärligt, inte självsäkert.</h2>
+      <p class="lead">De flesta väderappar ger varje tal samma lugna auktoritet. Det gör inte Nimbus. När en källa inte har något att säga säger appen det, i stället för att visa en nolla. När den bara gissar timmen mellan två verkliga säger den också det.</p>
+      <div class="dots">
+        <div class="dot"><i style="background:var(--good)"></i><b>Stabil</b><span>Oberoende modellkörningar är överens. Planera efter den.</span></div>
+        <div class="dot"><i style="background:var(--mid)"></i><b>Medel</b><span>De flesta är överens. En jacka i väskan kostar lite.</span></div>
+        <div class="dot"><i style="background:var(--bad)"></i><b>Svag</b><span>De är oense. Ta den som en vink.</span></div>
+      </div>
+      <div class="kinds">
+        <div class="kind"><b>Uppmätt</b><span>”Uppmätt av radar. Ingen prognos.”</span></div>
+        <div class="kind"><b>Framräknat</b><span>”Framräknat mellan modellens timmar 10:00 och 11:00. Modellen själv räknar inte fram just den här stunden.”</span></div>
+        <div class="kind"><b>Prognos</b><span>”Prognos från en modell, inte från radar.”</span></div>
+      </div>
+      <p style="margin-top:18px;color:var(--ink-2)">De här tre visas alltid olika, i båda lägena. En uppmätt bild ser aldrig ut som en förutsagd.</p>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Tillförlitlighet är samsyn i en ensemble: hur många av de oberoende körningarna som säger samma sak. I Tjeckien och Tyskland är det <code>ICON-D2</code>, 20 medlemmar, i ungefär två dygn, sedan <code>ECMWF IFS025</code>, 51 medlemmar. Annars är det ECMWF.</li>
+          <li>Det är inte chansen för regn. En säker uppskattning av trettio procents chans för regn är inte en trettio procent säker uppskattning.</li>
+          <li>Ett värde som appen inte kan mäta visas som saknat, aldrig som låg tillförlitlighet.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv">
+      <div class="stack">
+        <figure class="float"><img src="../img/sv/p_now_conf.webp" alt="Bandet med tillförlitlighet för 24 timmar" width="960" height="271" data-user="../img/sv/p_now_conf.webp" data-expert="../img/sv/p_e_now_conf.webp"></figure>
+        <figure class="float"><img src="../img/sv/p_verdict.webp" alt="Beskedet Torrt minst 30 h med en grön prick: stabilt de närmaste 115 minuterna" width="1000" height="154"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 NEARBY -->
+<section class="chap" id="nearby">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">03 · STATIONER I NÄRHETEN <span class="tag">Nästa version</span></p>
+      <h2>”Min termometer visar 5, appen säger 8.”</h2>
+      <p class="lead">En klar, stilla natt kan luften skilja flera grader på några kilometer: havet håller kusten uppe och kall luft rinner ner i dalarna. När mätstationerna runt dig skiljer 3 grader eller mer säger Nimbus det på översta kortet och nämner den varmaste och den kallaste.</p>
+      <ul class="can">
+        <li><span><b>Tryck på en stations namn</b> så öppnas den nationella väderleksbyråns sida med stationen redan vald.</span></li>
+        <li><span><b>Håll in</b> så öppnas den råa mätningen bakom talet.</span></li>
+        <li><span><b>Den rättar aldrig prognosen.</b> Den säger bara vad det är för natt, så att en kall trädgård inte kommer som en överraskning.</span></li>
+      </ul>
+      <div class="link-demo">
+        <div class="gesture">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V12m0-1a1.5 1.5 0 0 1 3 0v4.5A5.5 5.5 0 0 1 12.5 21h-1.2A5.5 5.5 0 0 1 7 18.9L4.2 14.6a1.5 1.5 0 0 1 2.4-1.8L9 15"/></svg>
+          <span><b>Tryck</b> - stationens sida med lufttemperaturen</span>
+        </div>
+        <div class="gesture">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="3.2"/></svg>
+          <span><b>Håll in</b> - den råa mätningen för den senaste timmen</span>
+        </div>
+      </div>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Minst tre stationer inom 60 km, var och en avläst de senaste två timmarna. Med färre finns inget svar, och kortet tiger i stället för att kalla luften jämn.</li>
+          <li>De tre graderna är samma tröskel som appen använder för ”behöver jag jacka eller inte”.</li>
+          <li>Källa: SMHI:s stationsnät, timavläsningar. Utanför Sverige finns inget svar än.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv">
+      <div class="stack">
+        <figure class="float"><img src="../img/sv/p_nearby.webp" alt="Översta kortet: Instrument i närheten skiljer sig 6 °C just nu, Lungö 3, Västmarkum minus 3" width="1000" height="148"></figure>
+        <p class="cap">Stationsnamnen är länkar. Ett långt tryck går till själva datan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 RADAR -->
+<section class="chap band flip" id="radar">
+  <div class="wrap">
+    <div class="centerhead rv">
+      <p class="num">04 · RADAR</p>
+      <h2>Formen på det som kommer.</h2>
+      <p class="lead">En karta med tidsreglage. Dra bakåt för att se var det har regnat, framåt för att se vart regnet är på väg. Bredvid det uppmätta regnet finns fyra prognoslager, och ett femte visar norrskenet.</p>
+    </div>
+    <div class="two">
+      <div class="rv">
+        <ul class="can" style="margin-top:0">
+          <li><span><b>Spela, pausa, dra.</b> Reglaget når upp till 10 timmar bakåt och framåt så långt du väljer, i Norden ungefär två dygn.</span></li>
+          <li><span><b>Välj lager</b> - regn, temperatur, vind, moln. Molnen kan delas upp i låga, mellanhöga och höga.</span></li>
+          <li><span><b>Regn eller snö.</b> En omkopplare över kartan skiljer intensiteten från typen av nederbörd.</span></li>
+          <li><span><b>Läs teckenförklaringen.</b> Färgskalan ligger över kartan och anger enheten. Temperaturskalan vänder vid fryspunkten.</span></li>
+          <li><span><b>Zoom med en hand.</b> Dubbeltryck för att zooma in, eller dubbeltryck, håll tummen nere och dra.</span></li>
+          <li><span><b>Under kartan en mening</b> med enkla ord: ”Närmaste regn 41 km åt norr. Uppmätt av radar. Ingen prognos.”</span></li>
+        </ul>
+        <div class="x" data-only="expert">
+          <h3>Expert lägger till</h3>
+          <ul>
+            <li>Den uppmätta bilden är SMHI:s radarkomposit med bilder fem minuter isär. Regnintensiteten räknas ut ur reflektiviteten med <code>Z = 200·R^1.6</code> och kapas över 55 dBZ, eftersom hagel reflekterar mycket mer än vatten.</li>
+            <li>Prognoslagren är METs eget modellfält, 1 km, ritat från deras kartserver. Ingen publicerar prognosbilder från radar gratis, så appen låtsas inte ha dem.</li>
+            <li>Reglagets främre halva är beräknad radar de första timmarna, sedan timmodellen.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="art rv">
+        <div class="stack">
+          <div class="layers" role="group" aria-label="Radarlager">
+            <button type="button" data-layer="rain" aria-pressed="true">Regn</button>
+            <button type="button" data-layer="temp" aria-pressed="false">Temperatur</button>
+            <button type="button" data-layer="wind" aria-pressed="false">Vind</button>
+            <button type="button" data-layer="cloud" aria-pressed="false">Moln</button>
+            <button type="button" data-layer="aurora" aria-pressed="false">Norrsken</button>
+          </div>
+          <figure class="phone layerpics">
+            <img class="on" data-l="rain" src="../img/sv/radar_rain.webp" alt="Radar, lagret regn" width="640" height="1216">
+            <img data-l="temp" src="../img/sv/radar_temp.webp" alt="Radar, lagret temperatur" width="640" height="1216" loading="lazy">
+            <img data-l="wind" src="../img/sv/radar_wind.webp" alt="Radar, lagret vind med pilar" width="640" height="1216" loading="lazy">
+            <img data-l="cloud" src="../img/sv/radar_cloud.webp" alt="Radar, lagret moln" width="640" height="1216" loading="lazy">
+            <img data-l="aurora" src="../img/sv/radar_aurora.webp" alt="Radar, lagret norrsken" width="640" height="1216" loading="lazy">
+          </figure>
+          <p class="layertext" id="layertext" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 CHARTS -->
+<section class="chap" id="charts">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">05 · GRAFER</p>
+      <h2>Dagen som en linje.</h2>
+      <p class="lead">Temperatur, nederbörd, vind och moln, under varandra på samma tidsaxel. En röd linje markerar nu, och en notis säger hur långt bakåt datan når och att den äldre delen är modellen.</p>
+      <ul class="can">
+        <li><span><b>Välj fönster</b> - 12 timmar, 24 timmar, 3 dagar eller 7 dagar.</span></li>
+        <li><span><b>Peka med ett finger</b> och läs av det exakta värdet i det ögonblicket.</span></li>
+        <li><span><b>Nyp med två fingrar</b> för att sträcka eller flytta fönstret. En platt natt öppnar sin skala från tjugo grader till tre, så formen syns av sig själv.</span></li>
+        <li><span><b>Kommer du från Nu?</b> Ett tryck på rutan för vind eller tryck tar dig till dess diagram.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Raden ovanför diagrammen säger hur långt bakåt datan når och att den äldre delen är modellen, inte det appen såg.</li>
+          <li>Värdeaxeln räknas ut ur det som ligger i fönstret, så en inzoomning lämnar aldrig en tillplattad linje.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img src="../img/sv/charts.webp" alt="Diagram över temperatur, nederbörd och vind under 24 timmar" width="640" height="1216" loading="lazy"></figure></div></div>
+  </div>
+</section>
+
+<!-- 6 BRIEF -->
+<section class="chap flip band" id="brief">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">06 · DAGENS</p>
+      <h2>Din dag, del för del, och vad du ska ha på dig.</h2>
+      <p class="lead">En skärm som för förmiddag, middag, eftermiddag och kväll säger vad vädret bär med sig och vad du ska ha på dig. Den jämför varje del med samma del i går och visar gårdagsnattens egen spännvidd.</p>
+      <ul class="can">
+        <li><span><b>Solens båge</b> med soluppgång, solnedgång och dagens längd, och dagens lägsta och högsta ögonblick.</span></li>
+        <li><span><b>En tidslinje från i natt till kvällen</b> med en markör för nu. Varje del har temperatur, regn, vind, en klädrad och gårdagen.</span></li>
+        <li><span><b>En morgonnotis</b> vid den tid du väljer, så att svaret kommer innan du går.</span></li>
+        <li><span><b>Tryck på en del</b> så hoppar du till samma tid i Nu.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Gårdagens siffror kommer från appens egen logg över väder som redan har varit, läst per plats. En del utan registrerad avläsning visar ingenting.</li>
+          <li>Med behörigheten för exakt alarm skickas notisen på den valda minuten, annars inom den 30 minuter långa uppdateringscykeln. Inställningar visar vilket som är aktivt.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img src="../img/sv/brief.webp" alt="Dagens: solens båge och dagen del för del" width="640" height="1216" loading="lazy"></figure></div></div>
+  </div>
+</section>
+
+<!-- 7 WARNINGS -->
+<section class="chap" id="warnings">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">07 · VARNINGAR</p>
+      <h2>Officiella varningar för varje plats du har.</h2>
+      <p class="lead">Vad som gäller där du är och på var och en av dina platser, i samma ordning som i Inställningar. ”Inget gäller” sägs rakt ut, och det står också vem som svarar.</p>
+      <ul class="can">
+        <li><span><b>Sverige:</b> varningar från SMHI. <b>Tjeckien och Tyskland:</b> de nationella tjänsterna via MeteoAlarm.</span></li>
+        <li><span><b>Notiser</b> om regn på väg, kraftig vind och officiella varningar, så att du får veta utan att öppna appen.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>SMHI publicerar ett flöde för hela landet. En varning täcker ett ritat område, så appen kontrollerar om din plats ligger inuti.</li>
+          <li>Vindnotisen använder samma gränsvärde för vindbyar som klädrådet och hålls tillbaka när appen inte är säker nog för att väcka dig.</li>
+          <li>Loggen över notiser som faktiskt skickats visas här bara i Expertläget.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img id="warnpic" src="../img/sv/warnings.webp" alt="Skärmen Varningar med två grupper av platser" width="640" height="1216" loading="lazy" data-user="../img/sv/warnings.webp" data-expert="../img/sv/e_warnings.webp"></figure></div></div>
+  </div>
+</section>
+
+<!-- 8 AURORA -->
+<section class="chap flip band" id="aurora">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">08 · NORRSKEN</p>
+      <h2>Lyser himlen upp i natt?</h2>
+      <p class="lead">Det sista lagret på radarn är inte väder utan norrsken. Det öppnas på en stor nattonad karta med norrskensovalen, och ovanför den chansen att se det över din plats, med enkla ord.</p>
+      <ul class="can">
+        <li><span><b>Först ett tal:</b> chansen för norrsken rakt ovanför om ungefär en timme, och aktiviteten nu med ett ord - svag, måttlig, stark, mycket stark.</span></li>
+        <li><span><b>De kommande nätterna,</b> en rad för varje: ”I natt”, ”I morgon natt”, sedan efter veckodag, med de timmar då det kan synas.</span></li>
+        <li><span><b>Riktiga platser på kartan,</b> så att du kan läsa ovalen mot städer du känner till.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Data från NOAA SWPC: modellen OVATION för ovalen, Kp-indexet för aktiviteten. Aktivitetsintervallen följer NOAA: Kp 0-2 svag, 3-5 måttlig, 6-7 stark, 8-9 mycket stark.</li>
+          <li>Ovalen ritas kontinuerligt. Varje ritat värde ligger mellan fyra publicerade rutnätspunkter. Färger: grönt från 5 %, gult 25, rött 60 och uppåt.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="phone"><img src="../img/sv/radar_aurora.webp" alt="Norrskensvyn: 0 procents chans över platsen, svag aktivitet, en mörk karta över norr" width="640" height="1216" loading="lazy"></figure></div></div>
+  </div>
+</section>
+
+<!-- 9 PLACES -->
+<section class="chap" id="places">
+  <div class="wrap">
+    <div class="rv">
+      <p class="num">09 · PLATSER</p>
+      <h2>En plats, överallt.</h2>
+      <p class="lead">Välj platsen appen handlar om, eller låt den följa dig. Vad du än väljer är platsen som skärmarna, widgeten och notiserna alla talar för, så de säger aldrig emot varandra.</p>
+      <ul class="can">
+        <li><span><b>Ha flera platser</b> i den ordning du vill. Fem tjeckiska platser finns från början, och Lunde, Kramfors och Härnösand för det svenska hemområdet.</span></li>
+        <li><span><b>Följ min position</b> så flyttar sig prognosen med dig. Kommer du tillbaka till appen frågar den var du är igen.</span></li>
+        <li><span><b>Inga påhittade gatunamn.</b> En adress visas bara för en exakt position, eftersom ett gatunamn för en avrundad position skulle vara påhittat.</span></li>
+      </ul>
+      <div class="x" data-only="expert">
+        <h3>Expert lägger till</h3>
+        <ul>
+          <li>Under varje plats den modell som svarar för den, till exempel <code>MET Nordic 1 km</code>.</li>
+          <li>Vilken källa som talar för en plats avgörs per koordinat utifrån modellens verkliga täckning, aldrig efter land.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="art rv"><div class="stack"><figure class="float"><img id="placepic" src="../img/sv/p_places.webp" alt="Platser: prognos för Lunde med en omkopplare för att följa min position" width="900" height="656" loading="lazy"></figure>
+    <figure class="float"><img src="../img/sv/p_radar_legend.webp" alt="Radarns teckenförklaring och meningen under kartan" width="960" height="507" loading="lazy" data-user="../img/sv/p_radar_legend.webp" data-expert="../img/sv/p_e_radar_notes.webp"></figure></div></div>
+  </div>
+</section>
+
+<!-- 10 DEVICES -->
+<section class="chap band" id="devices">
+  <div class="wrap">
+    <div class="centerhead rv">
+      <p class="num">10 · UTAN ATT ÖPPNA APPEN</p>
+      <h2>Svaret där du redan tittar.</h2>
+      <p class="lead">Appens första uppgift är att svara innan du har tagit på dig skorna. Widgeten och klockan finns för det, kartan kommer först tredje.</p>
+    </div>
+    <div class="devices">
+      <div class="device rv">
+        <h3>Widget på hemskärmen</h3>
+        <p>Tid, datum och väder i en blick: temperaturen nu, hur det känns och de närmaste timmarna, var och en med en tillförlitlighetsprick. Välj stil, textstorlek, plats, nedre raden och vad ett tryck öppnar.</p>
+        <img class="widgetpic" src="../img/sv/widget.webp" alt="Widgeten på hemskärmen: datum, en klocka, Lunde med 1,5 grader och sex timmars prognos" width="900" height="463" loading="lazy">
+        <p style="font-size:14px;margin-top:10px">Widgeten på hemskärmen, i den stora klockstilen.</p>
+        <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>Widgeten och notiserna använder samma plats som appen. Deras text har ingen enklare tvilling, den är densamma i båda lägena.</p></div>
+      </div>
+      <div class="device rv">
+        <h3>Klocka med Wear OS</h3>
+        <p>Svaret, temperatur, vind, timmarna och veckan framåt, varningar och solen, plus en ruta och en komplikation för urtavlan. Telefonen skickar datan. Sidorna ordnar du i Inställningar.</p>
+        <div class="watches">
+          <figure class="watch"><img src="../img/watch/sv/w1.webp" alt="Klockan: Torrt minst 22 h, 8,2 grader" width="466" height="466" loading="lazy"></figure>
+          <figure class="watch"><img src="../img/watch/sv/w2.webp" alt="Klockan: timmarna" width="466" height="466" loading="lazy"></figure>
+          <figure class="watch"><img src="../img/watch/sv/w3.webp" alt="Klockan: veckan" width="466" height="466" loading="lazy"></figure>
+          <figure class="watch"><img src="../img/watch/sv/w4.webp" alt="Klockan: rutan" width="466" height="466" loading="lazy"></figure>
+        </div>
+        <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>Klockan öppnas på Nu, sedan följer Timmar, Vecka och Varningar i den ordning du ställer in. Sidan Varningar visas bara när något är känt om varningar för platsen.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 SOURCES -->
+<section class="chap" id="sources">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">11 · KÄLLOR</p>
+      <h2>Var varje siffra kommer ifrån.</h2>
+      <p class="lead">En skärm listar varje källa, vad den ger och vilken som svarar för platsen du tittar på. Om en källa inte svarar säger appen det.</p>
+    </div>
+    <div class="gallery one rv" data-only="user" aria-label="Skärmen Källor">
+      <figure class="phone"><img src="../img/sv/sources.webp" alt="Skärmen Källor: de närmaste 2 timmarna, 2 timmar till 2,5 dygn, 2,5 till 15 dygn" width="640" height="1216" loading="lazy"></figure>
+    </div>
+    <div class="gallery rv" data-only="expert" aria-label="Skärmen Källor i Expertläget">
+      <figure class="phone"><img src="../img/sv/e_sources0.webp" alt="Källor i Expertläget, del ett: var varje siffra kommer ifrån och de närmaste två timmarna" width="640" height="1216" loading="lazy"></figure>
+      <figure class="phone"><img src="../img/sv/e_sources.webp" alt="Källor i Expertläget, del två" width="640" height="1216" loading="lazy"></figure>
+      <figure class="phone"><img src="../img/sv/e_sources2.webp" alt="Källor i Expertläget, del tre: tillförlitlighet på varje rad" width="640" height="1216" loading="lazy"></figure>
+      <figure class="phone"><img src="../img/sv/e_sources3.webp" alt="Källor i Expertläget, del fyra: väderstationer och radarn som siffror" width="640" height="1216" loading="lazy"></figure>
+    </div>
+    <p class="cap" data-only="user">Byt till Expert högst upp så ser du hur varje tal räknas ut och vad varje källa inte kan säga.</p>
+    <p class="cap" data-only="expert">Varje kort har Vad, Hur och Förbehåll. Förbehållet är den ärliga delen: vad källan inte kan säga.</p>
+  </div>
+</section>
+
+<!-- 12 COVERAGE -->
+<section class="chap band" id="coverage">
+  <div class="wrap">
+    <div class="centerhead rv">
+      <p class="num">12 · DÄR DET FUNGERAR</p>
+      <h2>Bäst där den byggdes, bra även utanför.</h2>
+      <p class="lead">Nimbus byggdes för två områden och är mest exakt där. Den klarar också resten av Norden, hela Tjeckien och Tyskland.</p>
+    </div>
+    <div class="cover">
+      <div class="country rv"><div class="flagline" style="background:linear-gradient(90deg,#0f6bb5 60%,#e8b100 60%)"></div><h3>Norden</h3><p>En mycket fin prognosruta, radar-nowcast i femminuterssteg för de närmaste två timmarna och officiella varningar från SMHI i Sverige. Mest exakt kring Kramfors och Härnösand.</p>
+        <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>MET Nordic, en ruta på ungefär 1 km. Efter de få dygn de fina modellerna räcker tar ECMWF över, och appen säger från när.</p></div></div>
+      <div class="country rv"><div class="flagline" style="background:linear-gradient(90deg,#fff 33%,#c8102e 33% 66%,#11457e 66%);border:1px solid var(--line)"></div><h3>Tjeckien</h3><p>Den tjeckiska vädertjänstens egen mycket fina modell och radar, med egen nowcast en timme framåt. Ploskov, Lužná, Rakovník, Kladno och Praha finns i platslistan från början.</p>
+        <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>CHMI ALADIN, ungefär 1 km, per timme. Varningar via MeteoAlarm.</p></div></div>
+      <div class="country rv"><div class="flagline" style="background:linear-gradient(180deg,#111 33%,#dd0000 33% 66%,#ffce00 66%);"></div><h3>Tyskland</h3><p>Den tyska vädertjänstens modell och radar, med nowcast två timmar framåt.</p>
+        <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>DWD ICON-D2 med en ruta på 2,2 km, i kvartstimmar i Tyskland. Radar-nowcast RADVOR.</p></div></div>
+    </div>
+    <p class="cap" style="margin-top:22px">Appen talar tjeckiska, engelska och svenska, och språket byts i appen.</p>
+  </div>
+</section>
+
+<!-- 13 MODES -->
+<section class="chap" id="modes">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">13 · ANVÄNDARE OCH EXPERT</p>
+      <h2>Så mycket detaljer du vill.</h2>
+      <p class="lead">Samma app i två nivåer. En omkopplare i Inställningar, under ”Detaljnivå”. Sidan du läser har samma omkopplare högst upp.</p>
+    </div>
+    <div class="modes">
+      <div class="modecard rv" id="mc-user"><h3>Användare</h3><p>Visar det du behöver för att bestämma dig.</p><ul><li>Enkla ord och ett svar per skärm</li><li>Tillförlitlighetsprickar och meningar</li><li>Notiser som säger vilken sorts bild du tittar på</li></ul></div>
+      <div class="modecard rv" id="mc-expert"><h3>Expert</h3><p>Lägger till arbetet bakom ett tal.</p><ul><li>Käll- och modellnamn</li><li>Formler och steglängder</li><li>Notiser om hur saker räknas ut, och förbehållen</li></ul></div>
+    </div>
+    <div class="always rv"><b>Förblir enkelt i båda lägena</b>Om något är uppmätt, framräknat eller förutsagt. Hur mycket en prognos går att lita på. Att en källa saknas. Kartans källhänvisning och licenser.</div>
+    <div class="stack rv" style="margin-top:34px"><figure class="phone" style="width:min(300px,80vw)"><img src="../img/sv/settings_detail.webp" alt="Inställningar: Detaljnivå inställd på Användare" width="640" height="1216" loading="lazy"></figure></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Nimbus</b> - inget konto, inga annonser, ingen telemetri. Allt stannar i telefonen.</p>
+    <p><a href="https://mdiskuze.github.io/nimbus/privacy-policy.html">Integritetspolicy</a> · <a href="https://github.com/mdiskuze/nimbus">Rapportera ett problem</a></p>
+    <p>Data: MET Norway, Open-Meteo med modeller från DWD, CHMI och ECMWF, SMHI, MeteoAlarm, NOAA SWPC, GeoNames, OpenStreetMap, MapTiler.</p>
+  </div>
+</footer>
+
+<script>
+window.T={hint:{user:"Enkla ord. Byt för källor och formler.",expert:"Källor, formler och steglängder tillagda."},layers:{rain:"Regn uppmätt av radar. Ingen prognos. Omkopplaren över kartan växlar mellan intensitet och regn eller snö.",temp:"Temperatur i området från modellen. Skalan vänder vid fryspunkten, så kallt och milt aldrig får samma färg.",wind:"Vind i meter per sekund, med pilar för den riktning den blåser åt.",cloud:"Molntäcke från en modell och inte från en satellit. Dela upp det i låga, mellanhöga och höga om du behöver.",aurora:"Chansen för norrsken över din plats om ungefär en timme, på en karta över norr."}};
+document.documentElement.classList.add('js');
+(function(){
+  var root=document.documentElement;
+  var hint=T.hint;
+  function setMode(m){
+    root.setAttribute('data-mode',m);
+    document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mode===m?'true':'false')});
+    var h=document.getElementById('modehint'); if(h) h.textContent=hint[m];
+    document.querySelectorAll('img[data-user]').forEach(function(i){i.src=i.dataset[m]});
+    var u=document.getElementById('mc-user'),e=document.getElementById('mc-expert');
+    if(u&&e){u.classList.toggle('on',m==='user');e.classList.toggle('on',m==='expert')}
+    try{localStorage.setItem('nimbus-tour-mode',m)}catch(x){}
+  }
+  var start='user';
+  try{var q=new URLSearchParams(location.search).get('mode'); var s=localStorage.getItem('nimbus-tour-mode'); start=(q==='expert'||q==='user')?q:(s==='expert'?'expert':'user')}catch(x){}
+  setMode(start);
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){setMode(b.dataset.mode)})});
+
+  /* radar layers */
+  var text=T.layers;
+  var lt=document.getElementById('layertext');
+  document.querySelectorAll('.layers button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.layers button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      document.querySelectorAll('.layerpics img').forEach(function(i){i.classList.toggle('on',i.dataset.l===b.dataset.layer)});
+      lt.textContent=text[b.dataset.layer];
+    });
+  });
+  lt.textContent=text.rain;
+
+  /* chapter highlight and reveal */
+  var links={};document.querySelectorAll('.chapters a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.12});
+    document.querySelectorAll('.rv').forEach(function(n){io.observe(n)});
+    var so=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){Object.keys(links).forEach(function(k){links[k].classList.toggle('on',k===e.target.id)});
+        var a=links[e.target.id]; if(a&&a.scrollIntoView){var nav=a.parentNode.parentNode; nav.scrollTo({left:a.offsetLeft-24,behavior:'smooth'})}}
+    })},{rootMargin:'-40% 0px -55% 0px'});
+    document.querySelectorAll('section.chap').forEach(function(s){so.observe(s)});
+  }else{document.querySelectorAll('.rv').forEach(function(n){n.classList.add('in')})}
+})();
+</script>
+</body>
+</html>

@@ -2,6 +2,8 @@
 
 **Hyper-local weather for Lunde, Kramfors and Härnösand.**
 
+**[Take the tour: what Nimbus can do](tour/)**
+
 Radar first, honest about how much it knows, and built to answer one question before you open
 anything: do you need a coat.
 
