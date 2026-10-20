@@ -177,6 +177,29 @@ html[data-mode="expert"] [data-only="user"]{display:none!important}
 .always{margin-top:18px;border-radius:20px;background:var(--surface);padding:18px 22px;border:1px solid var(--line)}
 .always b{display:block;margin-bottom:4px}
 
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.hl{display:flex;flex-direction:column;gap:8px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);padding:22px;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+.hl:hover{border-color:var(--accent)}
+.hl h3{font-size:19px;line-height:1.2}
+.hl h3::after{content:" \2192";color:var(--accent)}
+.hl p{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+
+/* settings */
+.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.sgroup{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.sgroup.wide{grid-column:1/-1}
+.sgroup h3{font-size:22px;margin-bottom:6px}
+.sgroup>p{color:var(--ink-2);font-size:15.5px}
+.opts{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.opts li{display:grid;gap:2px;padding-top:12px;border-top:1px solid var(--line)}
+.opts li:first-child{border-top:0;padding-top:0}
+.opts b{font-weight:650}
+.opts span{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+.sgroup.wide .opts{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;row-gap:16px}
+.sgroup.wide .opts li,.sgroup.wide .opts li:first-child{border-top:0;padding-top:0}
+.sgroup .x{margin-top:16px}
+
 footer{padding:56px 0 80px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px}
 footer .wrap{display:grid;gap:10px}
 
@@ -191,9 +214,11 @@ html:not(.js) .rv{opacity:1;transform:none}
   .heroart{min-height:0;padding-bottom:64px}
   .heroart .phone{transform:none}
   .f1{left:0;right:0;margin:0 auto;bottom:0;width:min(330px,86vw)}
-  .cover,.devices,.modes,.dots{grid-template-columns:1fr}
+  .cover,.devices,.modes,.dots,.sgrid,.sgroup.wide .opts{grid-template-columns:1fr}
+  .hl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .chap{padding:56px 0}
 }
+@media(max-width:560px){.hl-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -217,7 +242,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   </div>
   <nav class="chapters" aria-label="Kapitoly">
     <div class="wrap">
-      <a href="#now">Teď</a><a href="#trust">Důvěra</a><a href="#nearby">Okolní stanice</a><a href="#radar">Radar</a><a href="#charts">Grafy</a><a href="#brief">Shrnutí dne</a><a href="#warnings">Varování</a><a href="#aurora">Záře</a><a href="#places">Místa</a><a href="#devices">Widget a hodinky</a><a href="#sources">Zdroje</a><a href="#coverage">Kde funguje</a><a href="#modes">Uživatel a Expert</a>
+      <a href="#highlights">Hlavní přednosti</a><a href="#now">Teď</a><a href="#trust">Důvěra</a><a href="#nearby">Okolní stanice</a><a href="#radar">Radar</a><a href="#charts">Grafy</a><a href="#brief">Shrnutí dne</a><a href="#warnings">Varování</a><a href="#aurora">Záře</a><a href="#places">Místa</a><a href="#devices">Widget a hodinky</a><a href="#sources">Zdroje</a><a href="#coverage">Kde funguje</a><a href="#modes">Uživatel a Expert</a><a href="#settings">Nastavení</a>
     </div>
   </nav>
 </header>
@@ -239,6 +264,27 @@ html:not(.js) .rv{opacity:1;transform:none}
     <div class="heroart">
       <figure class="phone"><img src="../img/cs/now.webp" alt="Obrazovka Teď: Sucho aspoň 30 h, 1 stupeň, pod tím předpověď na další dny" width="640" height="1216" data-user="../img/cs/now.webp" data-expert="../img/cs/e_now.webp"></figure>
       <figure class="float f1 rv"><img src="../img/cs/p_nearby.webp" alt="Řádek z horní karty: měřicí stanice v okolí se teď liší o 6 stupňů" width="1000" height="148"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="chap band" id="highlights">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">STRUČNĚ</p>
+      <h2>Čím se Nimbus liší.</h2>
+      <p class="lead">Osm věcí, které stojí za to znát před prohlídkou. Každá karta otevře svou kapitolu.</p>
+    </div>
+    <div class="hl-grid">
+      <a class="hl rv" href="#trust"><h3>Řekne, jak moc si je jistý</h3><p>U každé odpovědi je tečka, jak moc jí věřit, spočítaná z toho, kolik nezávislých běhů modelu se shoduje. Není to pravděpodobnost deště.</p></a>
+      <a class="hl rv" href="#trust"><h3>Naměřené, dopočítané, předpovězené</h3><p>Radarový snímek, hodnota dopočítaná mezi dvěma hodinami modelu a předpověď modelu se vždy ukazují jinak. Naměřený obraz nikdy nevypadá jako předpovězený.</p></a>
+      <a class="hl rv" href="#nearby"><h3>Všimne si, když se teploměry rozcházejí</h3><p>Když se měřicí stanice kolem tebe liší o 3 stupně a víc, řekne to horní karta a jmenuje nejteplejší a nejchladnější. Klepnutím na jméno otevřeš stanici, podržením surové měření.</p></a>
+      <a class="hl rv" href="#radar"><h3>Déšť nebo sníh, pět vrstev, polární záře</h3><p>Radar s posuvníkem času deset hodin zpět a dopředu, jak daleko si zvolíš. Déšť, teplota, vítr, oblačnost a polární záře, déšť odlišený od sněhu a zoom jedním palcem.</p></a>
+      <a class="hl rv" href="#charts"><h3>Mlha podle hlášení letišť</h3><p>Graf, jak daleko je vidět, s čárou na jednom kilometru, kde mlha začíná. Nejdřív bere hlášení nejbližšího letiště a říká, jestli je údaj změřený, nebo z modelu.</p></a>
+      <a class="hl rv" href="#settings"><h3>Ty rozhodneš, co je bunda</h3><p>Sedm hranic, od čepice a rukavic po větrovku, si posuneš podle sebe. Jsou to jediná čísla v aplikaci, která nejsou naměřená, protože bundové počasí jednoho je tričkové počasí druhého.</p></a>
+      <a class="hl rv" href="#settings"><h3>Známkuje vlastní předpovědi</h3><p>Aplikace porovnává svůj odhad deště s tím, co pak ukázal radar, a v režimu Expert ukazuje záznam. Dokud ho není dost, řekne to místo procenta.</p></a>
+      <a class="hl rv" href="#devices"><h3>Widget a hodinky mluví za stejné místo</h3><p>Widget i hodinky s Wear OS mají stejné tečky jistoty jako aplikace a mluví vždy za stejné místo. Každé může mít vlastní jazyk.</p></a>
     </div>
   </div>
 </section>
@@ -606,6 +652,87 @@ html:not(.js) .rv{opacity:1;transform:none}
     </div>
     <div class="always rv"><b>V obou režimech zůstává jednoduché</b>Jestli je něco naměřené, dopočítané, nebo předpovězené. Jak moc se předpovědi dá věřit. Že zdroj chybí. Zdroj mapy a licence.</div>
     <div class="stack rv" style="margin-top:34px"><figure class="phone" style="width:min(300px,80vw)"><img src="../img/cs/settings_detail.webp" alt="Nastavení: Úroveň detailů nastavená na Uživatel" width="640" height="1216" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<!-- 14 SETTINGS -->
+<section class="chap" id="settings">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">14 · NASTAVENÍ</p>
+      <h2>Nastav si ji po svém.</h2>
+      <p class="lead">Všechno, co si v aplikaci můžeš nastavit, v pořadí, v jakém je řadí Nastavení. Většinou je to přepínač nebo výběr z několika hodnot.</p>
+    </div>
+    <div class="sgrid">
+    <div class="sgroup rv">
+      <h3>Místo a radar</h3>
+      <ul class="opts">
+        <li><b>Místa</b><span>Najdi město podle jména, přidej, kde jsi teď, přetažením změň pořadí a vlastní místo odeber odsunutím do strany, s možností vrátit. Nebo nech aplikaci sledovat tvou polohu.</span></li>
+        <li><b>Záběr radaru</b><span>Jak široký výřez mapy se radar otevře, od 20 do 400 km.</span></li>
+        <li><b>Historie na posuvníku</b><span>Jak daleko zpět posuvník času sahá: 1, 2, 3, 6 nebo 10 hodin.</span></li>
+        <li><b>Jak daleko dopředu</b><span>Kolik dopředné půlky posuvníku chceš: žádnou, 2, 6 nebo 12 hodin, nebo všechno až do 60 hodin. Kratší rozsah znamená, že se dá trefit jednotlivá hodina.</span></li>
+      </ul>
+      <div class="x" data-only="expert"><h3>Expert přidává</h3><p>Snímky jsou po pěti minutách. Bez dopředné části ukazuje posuvník jen to, co radar naměřil, nic dopočítaného ani z modelu.</p></div>
+    </div>
+    <div class="sgroup rv">
+      <h3>Domovská obrazovka</h3>
+      <ul class="opts">
+        <li><b>Hodinový model</b><span>Ukaž nebo skryj hodinový model na obrazovce Teď. Radarovou vrstvu skrýt nejde, je to jádro aplikace.</span></li>
+        <li><b>Rozsah u hodnot</b><span>Vedle teploty a větru pásmo, ve kterém se hodnota nejspíš pohybuje.</span></li>
+        <li><b>Posouvání značky v grafu</b><span>Tažením po pruhu srážek vybereš čas a seznam dnů pod ním na něj skočí. Při scrollování se pruh přilepí nahoře.</span></li>
+        <li><b>Počasí na titulní kartě</b><span>Karta nahoře nese to, co popisuje: kapky v dešti, vítr, který přes ni jde, teplý přísvit při jasnu. Kresba je slabá, aby text zůstal čitelný. Vypnuto je karta hladká.</span></li>
+      </ul>
+      <div class="x" data-only="expert"><h3>Expert přidává</h3><p>Pásmo je 10. až 90. percentil od MET, ne odhad aplikace.</p></div>
+    </div>
+    <div class="sgroup rv">
+      <h3>Jak se oblékat</h3>
+      <p>Sedm hranic rozhoduje, co rada řekne. Jsou to jediná čísla v aplikaci, která nejsou naměřená, takže je posouváš ty.</p>
+      <ul class="opts">
+        <li><b>Pět teplotních hranic</b><span>Pod kterou chceš i čepici a rukavice, zimní bundu, bundu nebo mikinu, lehkou bundu a čepici. Každá se zastaví o sousední, takže se nemůžou překřížit.</span></li>
+        <li><b>Déšť a vítr</b><span>Nad kolika mm deště chceš něco nepromokavého, od 0 do 5 mm, a nad jakým nárazem větrovku, od 3 do 30 m/s.</span></li>
+        <li><b>Co rozhoduje</b><span>Pocitová teplota, tedy s větrem a vlhkostí, a bere se nejnižší v dané části dne. Déšť a vítr se posuzují zvlášť.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv">
+      <h3>Oznámení a pozadí</h3>
+      <ul class="opts">
+        <li><b>Stahování na pozadí</b><span>Každou půlhodinu, jen když je síť. Drží widget aktuální, umí varovat na déšť a zapisuje, jaké počasí bylo, takže grafy sahají čím dál víc zpátky. Vypnuto aplikace stahuje, jen když ji otevřeš.</span></li>
+        <li><b>Výjimka z optimalizace baterie</b><span>Aplikace ukáže, jestli optimalizace baterie stahování odkládá, a požádá o výjimku. Bez ní funguje, jen widget a zápis historie mají díry.</span></li>
+        <li><b>Denní shrnutí</b><span>Ranní oznámení s dnem po částech. Čas se nastavuje zvlášť pro pracovní dny a víkend. S povolením přesného budíku přijde přesně v tu minutu, jinak v rámci půlhodiny stahování.</span></li>
+        <li><b>Upozornění</b><span>Blížící se déšť, silný vítr, varování SMHI a denní shrnutí mají každé vlastní kanál v nastavení oznámení telefonu, takže jedno jde ztlumit bez ostatních.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Vzhled a jazyk</h3>
+      <ul class="opts">
+        <li><b>Jazyk</b><span>Podle telefonu, čeština, angličtina nebo švédština. Změní se hned, bez restartu.</span></li>
+        <li><b>Jazyk widgetu a hodinek</b><span>Každé může mluvit jiným jazykem než aplikace, nebo prostě jako aplikace.</span></li>
+        <li><b>Stránky hodinek</b><span>Hodinky se vždy otevřou na Teď. Vyber, které z Hodin, Týdne a Varování následují a v jakém pořadí. Totéž jde nastavit na hodinkách a platí poslední změna.</span></li>
+        <li><b>Úroveň detailů a vzhled</b><span>Uživatel, nebo Expert, stejný přepínač jako nahoře na téhle stránce. Vzhled se řídí systémem, nebo zůstane světlý či tmavý.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Widget</h3>
+      <p>Widget má vlastní obrazovku nastavení se dvěma záložkami, Vzhled a Klepnutí. Otevře se z karty v Nastavení nebo z widgetu samotného.</p>
+      <ul class="opts">
+        <li><b>Místo a styl</b><span>Místo aplikace, nebo jiné z tvých. Styl: podle tapety, podle systému, tmavé nebo světlé pozadí. Podle tapety dá tmavé pozadí na tmavou tapetu a světlé na světlou.</span></li>
+        <li><b>Velikosti a průhlednost</b><span>Velikost písma, velikost hodin a průhlednost pozadí. Průhlednost se zastaví tam, kde by nejslabší text přestal být čitelný.</span></li>
+        <li><b>Svátky</b><span>Český a švédský kalendář, zaškrtnuté v pořadí, v jakém se mají ukázat, nebo žádný.</span></li>
+        <li><b>Spodní řádek a co zobrazit</b><span>Pás šesti hodin s jistotou, nebo věta na zbytek dne. Budík, tlačítko obnovit, pocitovou teplotu, tlak a jeho vývoj i odpověď pod hodinami lze každé zobrazit nebo skrýt.</span></li>
+        <li><b>Co otevře klepnutí</b><span>Hodiny, minuty, budík a datum otevřou každé aplikaci, kterou si vybereš, ve výchozím stavu hodiny a kalendář. Počasí teď, pás hodin a věta otevřou v Nimbusu Teď, Radar, Grafy nebo Shrnutí.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide" data-only="expert">
+      <h3>Jak appka funguje</h3>
+      <p>Jen v režimu Expert.</p>
+      <ul class="opts">
+        <li><b>Která předpověď tady vychází</b><span>Vlastní odhad deště z radaru proti odhadu národní služby, na stejné minuty a se známkou od téhož radaru. Dokud záznamu není dost, nic nerozhoduje a na obrazovce zůstává MET.</span></li>
+        <li><b>Přesnost</b><span>Jak přesná aplikace tady byla, měřeno proti tomu, co radar skutečně ukázal, s počtem porovnání. Dokud čísla nejsou, řekne, že záznam teprve začala.</span></li>
+        <li><b>Zdroje</b><span>Tlačítko otevře obrazovku Zdroje s tím, odkud je které číslo.</span></li>
+      </ul>
+    </div>
+    </div>
+    <p class="cap" data-only="user">Nahoře přepni na Expert a uvidíš tu ještě poslední skupinu: jak aplikace známkuje vlastní předpovědi.</p>
   </div>
 </section>
 

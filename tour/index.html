@@ -177,6 +177,29 @@ html[data-mode="expert"] [data-only="user"]{display:none!important}
 .always{margin-top:18px;border-radius:20px;background:var(--surface);padding:18px 22px;border:1px solid var(--line)}
 .always b{display:block;margin-bottom:4px}
 
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.hl{display:flex;flex-direction:column;gap:8px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);padding:22px;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+.hl:hover{border-color:var(--accent)}
+.hl h3{font-size:19px;line-height:1.2}
+.hl h3::after{content:" \2192";color:var(--accent)}
+.hl p{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+
+/* settings */
+.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.sgroup{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.sgroup.wide{grid-column:1/-1}
+.sgroup h3{font-size:22px;margin-bottom:6px}
+.sgroup>p{color:var(--ink-2);font-size:15.5px}
+.opts{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.opts li{display:grid;gap:2px;padding-top:12px;border-top:1px solid var(--line)}
+.opts li:first-child{border-top:0;padding-top:0}
+.opts b{font-weight:650}
+.opts span{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+.sgroup.wide .opts{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;row-gap:16px}
+.sgroup.wide .opts li,.sgroup.wide .opts li:first-child{border-top:0;padding-top:0}
+.sgroup .x{margin-top:16px}
+
 footer{padding:56px 0 80px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px}
 footer .wrap{display:grid;gap:10px}
 
@@ -191,9 +214,11 @@ html:not(.js) .rv{opacity:1;transform:none}
   .heroart{min-height:0;padding-bottom:64px}
   .heroart .phone{transform:none}
   .f1{left:0;right:0;margin:0 auto;bottom:0;width:min(330px,86vw)}
-  .cover,.devices,.modes,.dots{grid-template-columns:1fr}
+  .cover,.devices,.modes,.dots,.sgrid,.sgroup.wide .opts{grid-template-columns:1fr}
+  .hl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .chap{padding:56px 0}
 }
+@media(max-width:560px){.hl-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -217,7 +242,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   </div>
   <nav class="chapters" aria-label="Chapters">
     <div class="wrap">
-      <a href="#now">Now</a><a href="#trust">Trust</a><a href="#nearby">Nearby stations</a><a href="#radar">Radar</a><a href="#charts">Charts</a><a href="#brief">Daily brief</a><a href="#warnings">Warnings</a><a href="#aurora">Aurora</a><a href="#places">Places</a><a href="#devices">Widget and watch</a><a href="#sources">Sources</a><a href="#coverage">Where it works</a><a href="#modes">User and Expert</a>
+      <a href="#highlights">Highlights</a><a href="#now">Now</a><a href="#trust">Trust</a><a href="#nearby">Nearby stations</a><a href="#radar">Radar</a><a href="#charts">Charts</a><a href="#brief">Daily brief</a><a href="#warnings">Warnings</a><a href="#aurora">Aurora</a><a href="#places">Places</a><a href="#devices">Widget and watch</a><a href="#sources">Sources</a><a href="#coverage">Where it works</a><a href="#modes">User and Expert</a><a href="#settings">Settings</a>
     </div>
   </nav>
 </header>
@@ -239,6 +264,27 @@ html:not(.js) .rv{opacity:1;transform:none}
     <div class="heroart">
       <figure class="phone"><img src="img/en/now.webp" alt="The Now screen: Dry at least 30 hours, 1 degree, with the forecast for the coming days below" width="640" height="1216" data-user="img/en/now.webp" data-expert="img/en/e_now.webp"></figure>
       <figure class="float f1 rv"><img src="img/en/p_nearby.webp" alt="A line from the top card: instruments nearby differ by 6 degrees right now" width="1000" height="148"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="chap band" id="highlights">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">THE SHORT LIST</p>
+      <h2>What stands out.</h2>
+      <p class="lead">Eight things worth knowing before the tour. Each card opens its chapter.</p>
+    </div>
+    <div class="hl-grid">
+      <a class="hl rv" href="#trust"><h3>Tells you how sure it is</h3><p>Every answer carries a dot for how far to trust it, worked out from how many independent model runs agree. It is not the chance of rain.</p></a>
+      <a class="hl rv" href="#trust"><h3>Measured, worked out, forecast</h3><p>A radar picture, a value worked out between two model hours and a model forecast are always shown differently. A measured picture never looks like a predicted one.</p></a>
+      <a class="hl rv" href="#nearby"><h3>Notices when thermometers disagree</h3><p>When the weather stations around you differ by 3 degrees or more, the top card says so and names the warmest and the coldest. Tap a name for the station, hold it for the raw reading.</p></a>
+      <a class="hl rv" href="#radar"><h3>Rain or snow, five layers, aurora</h3><p>A radar with a time slider ten hours back and ahead as far as you choose. Rain, temperature, wind, cloud and the northern lights, rain told apart from snow, and a zoom for one thumb.</p></a>
+      <a class="hl rv" href="#charts"><h3>Fog from airport reports</h3><p>A chart of how far one can see, with a line at one kilometre where fog begins. It takes the nearest airport's report first and says whether a figure is measured or from a model.</p></a>
+      <a class="hl rv" href="#settings"><h3>You decide what a jacket means</h3><p>Seven lines, from hat and gloves to a windproof layer, are yours to move. They are the only numbers in the app that are not measured, because one person's jacket weather is another's shirt weather.</p></a>
+      <a class="hl rv" href="#settings"><h3>Grades its own forecasts</h3><p>The app compares its rain nowcast with what the radar then showed, and in Expert mode it shows the record. Until there is enough of it, it says so instead of showing a percentage.</p></a>
+      <a class="hl rv" href="#devices"><h3>Widget and watch speak for the same place</h3><p>The widget and the Wear OS watch carry the same confidence dots as the app and always speak for the same place. Each can be set to its own language.</p></a>
     </div>
   </div>
 </section>
@@ -606,6 +652,87 @@ html:not(.js) .rv{opacity:1;transform:none}
     </div>
     <div class="always rv"><b>Stays plain in both modes</b>Whether something is measured, worked out or forecast. How far a forecast can be trusted. That a source is missing. The map credit and licences.</div>
     <div class="stack rv" style="margin-top:34px"><figure class="phone" style="width:min(300px,80vw)"><img src="img/en/settings_detail.webp" alt="Settings: Level of detail set to User" width="640" height="1216" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<!-- 14 SETTINGS -->
+<section class="chap" id="settings">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">14 · SETTINGS</p>
+      <h2>Make it yours.</h2>
+      <p class="lead">Everything the app lets you set, in the order Settings lists it. Most of it is a switch or a choice between a few values.</p>
+    </div>
+    <div class="sgrid">
+    <div class="sgroup rv">
+      <h3>Location and radar</h3>
+      <ul class="opts">
+        <li><b>Places</b><span>Find a town by name, add where you are now, drag to reorder and swipe your own place away to remove it, with an undo. Or let the app follow your location.</span></li>
+        <li><b>Radar span</b><span>How wide a patch of map the radar opens on, from 20 to 400 km.</span></li>
+        <li><b>History on the slider</b><span>How far back the time slider reaches: 1, 2, 3, 6 or 10 hours.</span></li>
+        <li><b>How far ahead</b><span>How much of the forward half of the slider you want: none, 2, 6 or 12 hours, or everything up to 60 hours. A shorter range is one whose individual hours can be aimed at.</span></li>
+      </ul>
+      <div class="x" data-only="expert"><h3>Expert adds</h3><p>Frames are five minutes apart. With none ahead the slider shows only what the radar measured, nothing computed and nothing from the model.</p></div>
+    </div>
+    <div class="sgroup rv">
+      <h3>Home screen</h3>
+      <ul class="opts">
+        <li><b>Hourly model</b><span>Show or hide the hourly model on Now. The radar layer cannot be hidden, it is the point of the app.</span></li>
+        <li><b>Range with values</b><span>Next to temperature and wind, the band the value most likely falls in.</span></li>
+        <li><b>Drag the marker in the chart</b><span>Drag along the precipitation strip to pick a time and the day list below jumps to it. The strip sticks to the top while you scroll.</span></li>
+        <li><b>Weather on the front card</b><span>The top card wears what it describes: drops in rain, wind crossing it, a warm glow when it is clear. Kept faint so the text reads as well. Off, the card is plain.</span></li>
+      </ul>
+      <div class="x" data-only="expert"><h3>Expert adds</h3><p>The band is MET's own 10th to 90th percentile, not an estimate of the app's.</p></div>
+    </div>
+    <div class="sgroup rv">
+      <h3>How to dress</h3>
+      <p>Seven lines decide what the advice says. They are the only numbers in the app that are not measured, so they are yours to move.</p>
+      <ul class="opts">
+        <li><b>Five temperature lines</b><span>Below which you want a hat and gloves too, a winter coat, a jacket or a hoodie, a light jacket, and a hat. Each stops against its neighbours, so they cannot cross.</span></li>
+        <li><b>Rain and wind</b><span>Above how much rain you want something waterproof, from 0 to 5 mm, and above which gust a windproof layer, from 3 to 30 m/s.</span></li>
+        <li><b>What decides</b><span>The felt temperature, wind and humidity included, taken at its lowest in that part of the day. Rain and wind are judged separately from it.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv">
+      <h3>Notifications and background</h3>
+      <ul class="opts">
+        <li><b>Refresh in the background</b><span>Every half hour, only on a network. It keeps the widget current, lets the rain warning fire and records what the weather was, so the charts look further back. Off, the app fetches only when you open it.</span></li>
+        <li><b>Battery exemption</b><span>The app shows whether the phone's battery optimisation is deferring the refresh and asks for the exemption. It works without it, but the widget and the history get gaps.</span></li>
+        <li><b>Daily brief</b><span>A morning notification with the day part by part. Set its time separately for weekdays and weekends. With the exact-alarm permission it arrives at that minute, otherwise within the half hour of the refresh.</span></li>
+        <li><b>Alerts</b><span>Rain about to start, strong wind, the SMHI warnings and the daily brief each have a channel of their own in the phone's notification settings, so one can be silenced without the others.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Appearance and language</h3>
+      <ul class="opts">
+        <li><b>Language</b><span>Follow the phone, Czech, English or Swedish. It changes at once, without restarting.</span></li>
+        <li><b>Widget and watch language</b><span>Each can speak a language other than the app's, or simply like the app.</span></li>
+        <li><b>Watch pages</b><span>The watch always opens on Now. Choose which of Hours, Week and Warnings follow and in what order. The same can be set on the watch and the latest change wins.</span></li>
+        <li><b>Level of detail and appearance</b><span>User or Expert, the same switch as at the top of this page. Appearance follows the system or stays light or dark.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Widget</h3>
+      <p>The widget has a settings screen of its own with two tabs, Look and Taps. It opens from this card in Settings or from the widget itself.</p>
+      <ul class="opts">
+        <li><b>Place and style</b><span>The app's place or another of your own. Style: by wallpaper, follow the phone, dark or light. By wallpaper puts a dark background on a dark wallpaper and a light one on a light wallpaper.</span></li>
+        <li><b>Sizes and opacity</b><span>Text size, clock size and how opaque the background is. Opacity stops where the faintest text would stop being readable.</span></li>
+        <li><b>Name days</b><span>The Czech and Swedish calendars, ticked in the order they should appear, or none.</span></li>
+        <li><b>Bottom row and what to show</b><span>The next six hours with confidence or the rest of the day in a sentence. Alarm, refresh button, feels like, pressure and its trend, and the answer under the clock can each be shown or hidden.</span></li>
+        <li><b>What a tap opens</b><span>Hours, minutes, the alarm and the date each open an app you choose, by default the clock and the calendar. The weather now, the hour strip and the sentence open Now, Radar, Charts or Brief in Nimbus.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide" data-only="expert">
+      <h3>How the app works</h3>
+      <p>Shown in Expert mode only.</p>
+      <ul class="opts">
+        <li><b>Which nowcast works here</b><span>The app's own rain forecast from radar against the national service's, for the same minutes and graded by the same radar. Until there is enough record it decides nothing and MET stays on screen.</span></li>
+        <li><b>Accuracy</b><span>How accurate the app has been here, measured against what the radar actually showed, with the number of comparisons. Until there are numbers it says it has only started recording.</span></li>
+        <li><b>Sources</b><span>A button opens the Sources screen with where each number comes from.</span></li>
+      </ul>
+    </div>
+    </div>
+    <p class="cap" data-only="user">Switch to Expert at the top to see a last group here: how the app grades its own forecasts.</p>
   </div>
 </section>
 

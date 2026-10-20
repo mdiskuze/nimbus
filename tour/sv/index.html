@@ -177,6 +177,29 @@ html[data-mode="expert"] [data-only="user"]{display:none!important}
 .always{margin-top:18px;border-radius:20px;background:var(--surface);padding:18px 22px;border:1px solid var(--line)}
 .always b{display:block;margin-bottom:4px}
 
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.hl{display:flex;flex-direction:column;gap:8px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);padding:22px;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+.hl:hover{border-color:var(--accent)}
+.hl h3{font-size:19px;line-height:1.2}
+.hl h3::after{content:" \2192";color:var(--accent)}
+.hl p{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+
+/* settings */
+.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.sgroup{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.sgroup.wide{grid-column:1/-1}
+.sgroup h3{font-size:22px;margin-bottom:6px}
+.sgroup>p{color:var(--ink-2);font-size:15.5px}
+.opts{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:12px}
+.opts li{display:grid;gap:2px;padding-top:12px;border-top:1px solid var(--line)}
+.opts li:first-child{border-top:0;padding-top:0}
+.opts b{font-weight:650}
+.opts span{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+.sgroup.wide .opts{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;row-gap:16px}
+.sgroup.wide .opts li,.sgroup.wide .opts li:first-child{border-top:0;padding-top:0}
+.sgroup .x{margin-top:16px}
+
 footer{padding:56px 0 80px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px}
 footer .wrap{display:grid;gap:10px}
 
@@ -191,9 +214,11 @@ html:not(.js) .rv{opacity:1;transform:none}
   .heroart{min-height:0;padding-bottom:64px}
   .heroart .phone{transform:none}
   .f1{left:0;right:0;margin:0 auto;bottom:0;width:min(330px,86vw)}
-  .cover,.devices,.modes,.dots{grid-template-columns:1fr}
+  .cover,.devices,.modes,.dots,.sgrid,.sgroup.wide .opts{grid-template-columns:1fr}
+  .hl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .chap{padding:56px 0}
 }
+@media(max-width:560px){.hl-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -217,7 +242,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   </div>
   <nav class="chapters" aria-label="Kapitel">
     <div class="wrap">
-      <a href="#now">Nu</a><a href="#trust">Förtroende</a><a href="#nearby">Stationer i närheten</a><a href="#radar">Radar</a><a href="#charts">Grafer</a><a href="#brief">Dagens</a><a href="#warnings">Varningar</a><a href="#aurora">Norrsken</a><a href="#places">Platser</a><a href="#devices">Widget och klocka</a><a href="#sources">Källor</a><a href="#coverage">Där det fungerar</a><a href="#modes">Användare och Expert</a>
+      <a href="#highlights">Höjdpunkter</a><a href="#now">Nu</a><a href="#trust">Förtroende</a><a href="#nearby">Stationer i närheten</a><a href="#radar">Radar</a><a href="#charts">Grafer</a><a href="#brief">Dagens</a><a href="#warnings">Varningar</a><a href="#aurora">Norrsken</a><a href="#places">Platser</a><a href="#devices">Widget och klocka</a><a href="#sources">Källor</a><a href="#coverage">Där det fungerar</a><a href="#modes">Användare och Expert</a><a href="#settings">Inställningar</a>
     </div>
   </nav>
 </header>
@@ -239,6 +264,27 @@ html:not(.js) .rv{opacity:1;transform:none}
     <div class="heroart">
       <figure class="phone"><img src="../img/sv/now.webp" alt="Skärmen Nu: Torrt minst 30 h, 1 grad, med prognosen för kommande dagar under" width="640" height="1216" data-user="../img/sv/now.webp" data-expert="../img/sv/e_now.webp"></figure>
       <figure class="float f1 rv"><img src="../img/sv/p_nearby.webp" alt="En rad från översta kortet: instrument i närheten skiljer sig 6 grader just nu" width="1000" height="148"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="chap band" id="highlights">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">I KORTHET</p>
+      <h2>Det som sticker ut.</h2>
+      <p class="lead">Åtta saker som är värda att veta före rundturen. Varje kort öppnar sitt kapitel.</p>
+    </div>
+    <div class="hl-grid">
+      <a class="hl rv" href="#trust"><h3>Säger hur säker den är</h3><p>Varje svar har en prick för hur mycket du kan lita på det, räknad ur hur många oberoende modellkörningar som är överens. Det är inte regnrisken.</p></a>
+      <a class="hl rv" href="#trust"><h3>Uppmätt, uträknat, prognos</h3><p>En radarbild, ett värde som räknats fram mellan två modelltimmar och en modellprognos visas alltid olika. En uppmätt bild ser aldrig ut som en förutsagd.</p></a>
+      <a class="hl rv" href="#nearby"><h3>Märker när termometrarna går isär</h3><p>När väderstationerna runt dig skiljer sig 3 grader eller mer säger översta kortet det och nämner den varmaste och den kallaste. Tryck på ett namn för stationen, håll in för det råa måttet.</p></a>
+      <a class="hl rv" href="#radar"><h3>Regn eller snö, fem lager, norrsken</h3><p>En radar med tidsreglage tio timmar bakåt och framåt så långt du väljer. Regn, temperatur, vind, moln och norrsken, regn skilt från snö och zoom med en tumme.</p></a>
+      <a class="hl rv" href="#charts"><h3>Dimma enligt flygplatsrapporter</h3><p>Ett diagram över hur långt man ser, med en linje vid en kilometer där dimma börjar. Det utgår först från närmaste flygplats rapport och säger om ett värde är uppmätt eller från en modell.</p></a>
+      <a class="hl rv" href="#settings"><h3>Du bestämmer vad en jacka betyder</h3><p>Sju gränser, från mössa och vantar till ett vindtätt lager, flyttar du själv. De är de enda talen i appen som inte är uppmätta, för en persons jackväder är en annans skjortväder.</p></a>
+      <a class="hl rv" href="#settings"><h3>Betygsätter sina egna prognoser</h3><p>Appen jämför sin regnprognos med vad radarn sedan visade och visar journalen i Expertläget. Så länge den är för tunn säger den det i stället för att visa en procentsiffra.</p></a>
+      <a class="hl rv" href="#devices"><h3>Widget och klocka talar för samma plats</h3><p>Widgeten och Wear OS-klockan har samma säkerhetsprickar som appen och talar alltid för samma plats. Var och en kan ha sitt eget språk.</p></a>
     </div>
   </div>
 </section>
@@ -606,6 +652,87 @@ html:not(.js) .rv{opacity:1;transform:none}
     </div>
     <div class="always rv"><b>Förblir enkelt i båda lägena</b>Om något är uppmätt, framräknat eller förutsagt. Hur mycket en prognos går att lita på. Att en källa saknas. Kartans källhänvisning och licenser.</div>
     <div class="stack rv" style="margin-top:34px"><figure class="phone" style="width:min(300px,80vw)"><img src="../img/sv/settings_detail.webp" alt="Inställningar: Detaljnivå inställd på Användare" width="640" height="1216" loading="lazy"></figure></div>
+  </div>
+</section>
+
+<!-- 14 SETTINGS -->
+<section class="chap" id="settings">
+  <div class="wrap" style="display:block">
+    <div class="centerhead rv">
+      <p class="num">14 · INSTÄLLNINGAR</p>
+      <h2>Gör den till din.</h2>
+      <p class="lead">Allt du kan ställa in i appen, i den ordning Inställningar listar det. Det mesta är en strömbrytare eller ett val mellan några värden.</p>
+    </div>
+    <div class="sgrid">
+    <div class="sgroup rv">
+      <h3>Plats och radar</h3>
+      <ul class="opts">
+        <li><b>Platser</b><span>Hitta en ort på namn, lägg till där du är nu, dra för att ändra ordning och svep bort en egen plats för att ta bort den, med ångra. Eller låt appen följa din position.</span></li>
+        <li><b>Radarns bredd</b><span>Hur stor del av kartan radarn öppnar på, från 20 till 400 km.</span></li>
+        <li><b>Historik på reglaget</b><span>Hur långt bakåt tidsreglaget når: 1, 2, 3, 6 eller 10 timmar.</span></li>
+        <li><b>Hur långt framåt</b><span>Hur mycket av reglagets framåtdel du vill ha: inget, 2, 6 eller 12 timmar, eller allt upp till 60 timmar. Ett kortare intervall är ett där enskilda timmar går att träffa.</span></li>
+      </ul>
+      <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>Bilderna ligger fem minuter ifrån varandra. Utan framåtdel visar reglaget bara det radarn mätte, inget uträknat och inget från modellen.</p></div>
+    </div>
+    <div class="sgroup rv">
+      <h3>Startskärm</h3>
+      <ul class="opts">
+        <li><b>Timmodellen</b><span>Visa eller dölj timmodellen på Nu. Radarlagret går inte att dölja, det är appens poäng.</span></li>
+        <li><b>Intervall med värden</b><span>Bredvid temperatur och vind, intervallet värdet troligen ligger i.</span></li>
+        <li><b>Dra markören i diagrammet</b><span>Dra längs nederbördsremsan för att välja en tid så hoppar dagslistan under dit. Remsan fastnar högst upp när du rullar.</span></li>
+        <li><b>Väder på framsidans kort</b><span>Översta kortet bär det det beskriver: droppar i regn, vind som drar över det, ett varmt sken när det är klart. Svagt, så texten läses lika bra. Avstängt är kortet slätt.</span></li>
+      </ul>
+      <div class="x" data-only="expert"><h3>Expert lägger till</h3><p>Intervallet är METs eget 10:e till 90:e percentil, inte appens uppskattning.</p></div>
+    </div>
+    <div class="sgroup rv">
+      <h3>Hur man klär sig</h3>
+      <p>Sju gränser avgör vad rådet säger. De är de enda talen i appen som inte är uppmätta, så du flyttar dem själv.</p>
+      <ul class="opts">
+        <li><b>Fem temperaturgränser</b><span>Under vilken du vill ha mössa och vantar också, vinterjacka, jacka eller tröja, lätt jacka och mössa. Varje gräns stannar mot sina grannar, så de kan inte korsa varandra.</span></li>
+        <li><b>Regn och vind</b><span>Över hur mycket regn du vill ha något vattentätt, från 0 till 5 mm, och över vilken vindby ett vindtätt lager, från 3 till 30 m/s.</span></li>
+        <li><b>Vad som avgör</b><span>Den upplevda temperaturen, med vind och fuktighet, och den lägsta under den delen av dagen räknas. Regn och vind bedöms för sig.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv">
+      <h3>Aviseringar och bakgrund</h3>
+      <ul class="opts">
+        <li><b>Uppdatera i bakgrunden</b><span>Varje halvtimme, bara när det finns nät. Håller widgeten aktuell, låter regnvarningen gå och skriver ner hur vädret var, så diagrammen når allt längre bakåt. Avstängt hämtar appen bara när du öppnar den.</span></li>
+        <li><b>Undantag från batterioptimering</b><span>Appen visar om telefonens batterioptimering skjuter upp uppdateringen och ber om undantag. Den fungerar utan, men widgeten och historiken får hål.</span></li>
+        <li><b>Dagens sammanfattning</b><span>En morgonavisering med dagen del för del. Tiden ställs in för sig för vardagar och helg. Med tillstånd för exakt alarm kommer den på minuten, annars inom halvtimmen för uppdateringen.</span></li>
+        <li><b>Aviseringar</b><span>Regn på väg, stark vind, SMHI-varningar och dagens sammanfattning har var sin kanal i telefonens aviseringsinställningar, så en kan tystas utan de andra.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Utseende och språk</h3>
+      <ul class="opts">
+        <li><b>Språk</b><span>Följ telefonen, tjeckiska, engelska eller svenska. Det ändras direkt, utan omstart.</span></li>
+        <li><b>Widgetens och klockans språk</b><span>Var och en kan tala ett annat språk än appens, eller helt enkelt som appen.</span></li>
+        <li><b>Klockans sidor</b><span>Klockan öppnar alltid på Nu. Välj vilka av Timmar, Vecka och Varningar som följer och i vilken ordning. Samma sak går att ställa in på klockan och den senaste ändringen gäller.</span></li>
+        <li><b>Detaljnivå och utseende</b><span>Användare eller Expert, samma omkopplare som högst upp på den här sidan. Utseendet följer systemet eller förblir ljust eller mörkt.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Widget</h3>
+      <p>Widgeten har en egen inställningsskärm med två flikar, Utseende och Tryck. Den öppnas från kortet i Inställningar eller från widgeten själv.</p>
+      <ul class="opts">
+        <li><b>Plats och stil</b><span>Appens plats eller en annan av dina. Stil: efter bakgrundsbilden, som telefonen, mörk eller ljus bakgrund. Efter bakgrundsbilden ger mörk bakgrund på mörk bild och ljus på ljus.</span></li>
+        <li><b>Storlekar och genomskinlighet</b><span>Textstorlek, klockans storlek och hur ogenomskinlig bakgrunden är. Genomskinligheten stannar där den svagaste texten slutar vara läsbar.</span></li>
+        <li><b>Namnsdagar</b><span>Den tjeckiska och den svenska kalendern, ikryssade i den ordning de ska visas, eller ingen.</span></li>
+        <li><b>Nedersta raden och vad som visas</b><span>De kommande sex timmarna med säkerhet eller resten av dagen i en mening. Alarm, uppdateringsknapp, känns som, lufttryck och dess trend och svaret under klockan kan var och en visas eller döljas.</span></li>
+        <li><b>Vad ett tryck öppnar</b><span>Timmar, minuter, alarmet och datumet öppnar var och en en app du väljer, som standard klockan och kalendern. Vädret nu, timremsan och meningen öppnar Nu, Radar, Grafer eller Dagens i Nimbus.</span></li>
+      </ul>
+    </div>
+    <div class="sgroup rv wide" data-only="expert">
+      <h3>Hur appen presterar</h3>
+      <p>Bara i Expertläget.</p>
+      <ul class="opts">
+        <li><b>Vilken prognos fungerar här</b><span>Appens egen regnprognos från radar mot den nationella tjänstens, för samma minuter och betygsatt av samma radar. Så länge journalen är för tunn avgör det inget och MET står kvar på skärmen.</span></li>
+        <li><b>Träffsäkerhet</b><span>Hur träffsäker appen har varit här, mätt mot vad radarn faktiskt visade, med antalet jämförelser. Tills det finns tal säger den att den bara har börjat föra journal.</span></li>
+        <li><b>Källor</b><span>En knapp öppnar källskärmen med var varje tal kommer ifrån.</span></li>
+      </ul>
+    </div>
+    </div>
+    <p class="cap" data-only="user">Byt till Expert högst upp så ser du en sista grupp här: hur appen betygsätter sina egna prognoser.</p>
   </div>
 </section>
 
