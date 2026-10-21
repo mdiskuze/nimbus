@@ -35,23 +35,39 @@
 <p><a href="./">Nimbus</a> · <a href="tour/">Take the tour</a></p>
 
 <h1>Nimbus - Privacy Policy</h1>
-<p class="updated">Last updated: 2026-09-28</p>
+<p class="updated">Last updated: 2026-10-21</p>
 
 <p>
 Nimbus is a hyper-local weather app for the Nordic countries, the Czech Republic and Germany. It has no account
-system, no backend server of its own, no advertising, and no analytics or crash-reporting SDK.
-This page explains the only two things that leave your device: where you are, and which weather
-service that location is sent to.
+system, no advertising, and no analytics or crash-reporting SDK. From version 0.51.0 it asks a small
+cache server of ours before it asks the weather services, which is described below.
+This page explains what leaves your device: where you are, and who it is sent to.
 </p>
 
 <h2>Location</h2>
 <p>
 If you grant Nimbus the location permission, or search for and save a place, the app sends that
 place's coordinates (latitude and longitude) to one or more of the weather services listed below,
-so they can answer with a forecast for that spot. Nimbus does not run a server, so nobody but you
-and that weather service ever sees the request - there is no third party in between collecting or
-reselling it, and no location history is kept anywhere except on your own device, for your own
-saved places.
+so they can answer with a forecast for that spot. A request that goes straight to a weather service
+is seen by that service and by nobody else, and a request that goes to our cache server carries only
+a map cell of about 2.5 km, never your coordinates (next section). There is no third party in between
+collecting or reselling any of it, and no location history is kept anywhere except on your own
+device, for your own saved places.
+</p>
+
+<h2>Our cache server</h2>
+<p>
+To stay within the free limits of the weather services and to answer faster, the app asks a small
+server of ours first for the forecast, the ensemble, the MET Norway forecast and nowcast, airport
+reports, SMHI's station readings and warnings, MeteoAlarm and the NOAA aurora data. It receives
+the size and the numbers of a map cell about 2.5 km wide around you and the names of the data the app
+needs, never your latitude and longitude, an account or an identifier of your phone. It stores the
+weather it fetched for the cells that were asked about, the list of those cells for a few days, and
+what weather stations measured. To limit abuse it counts the requests per hour under a short code
+made from the network address, the day and a secret. The counters are deleted after a few days and
+the code cannot be turned back into the address. We run no accounts and store no identifier of your
+phone. If the server does not answer, or its copy is more than half an hour old, the app asks the
+weather services itself, as before, and then the request carries your coordinates as described above.
 </p>
 
 <h2>Who Nimbus talks to</h2>
@@ -65,6 +81,7 @@ because Nimbus has none to send.
 </p>
 <table>
   <tr><th>Service</th><th>What it is asked for</th><th>Their own policy</th></tr>
+  <tr><td>Nimbus cache server (ours)</td><td>Stored copies of the forecast and observation data above, for a map cell around you, never your coordinates</td><td>The section above</td></tr>
   <tr><td>MET Norway (Norwegian Meteorological Institute)</td><td>Forecast, radar nowcast, sunrise/sunset for your place</td><td><a href="https://api.met.no/doc/TermsOfService">api.met.no terms</a></td></tr>
   <tr><td>Open-Meteo</td><td>Forecast model data, place search</td><td><a href="https://open-meteo.com/en/terms">open-meteo.com terms</a></td></tr>
   <tr><td>SMHI (Swedish Meteorological and Hydrological Institute)</td><td>Radar imagery, weather warnings, station observations</td><td><a href="https://www.smhi.se/en/about-smhi/other-languages/english-en/legal-information">smhi.se legal information</a></td></tr>
@@ -82,6 +99,15 @@ because Nimbus has none to send.
 Saved places, cached forecasts and radar frames, and your app settings are stored locally in the
 app's own database, so Nimbus can show something even when it cannot reach a network. None of it
 is uploaded anywhere. Uninstalling the app removes it.
+</p>
+
+<h2>Closed testing builds</h2>
+<p>
+In the builds given to invited testers in Google Play's closed testing, and only there, the app can
+send a diagnostic log to the developer: which sources it called and how that went, errors, the app
+version, the phone model and the place as a map cell of about 2.5 km and the name of a saved place.
+It can also send the exact GPS position, which is off by default and which the tester has to turn on.
+The log is removed from the app when closed testing ends.
 </p>
 
 <h2>Notifications</h2>
