@@ -262,7 +262,7 @@ html:not(.js) .rv{opacity:1;transform:none}
       <p class="lead" style="margin-top:26px;font-size:16px" data-only="expert">You are reading the <b>Expert</b> tour. Boxes with a dashed edge show what the app adds in Expert mode: source names, formulas and step lengths.</p>
     </div>
     <div class="heroart">
-      <figure class="phone"><img src="img/en/now.webp" alt="The Now screen: Dry at least 30 hours, 1 degree, with the forecast for the coming days below" width="640" height="1216" data-user="img/en/now.webp" data-expert="img/en/e_now.webp"></figure>
+      <figure class="phone"><img src="img/en/now.webp" alt="The Now screen: Dry at least 15 minutes, minus 3 degrees, with the forecast for the coming days below" width="640" height="1216" data-user="img/en/now.webp" data-expert="img/en/e_now.webp"></figure>
       <figure class="float f1 rv"><img src="img/en/p_nearby.webp" alt="A line from the top card: instruments nearby differ by 6 degrees right now" width="1000" height="148"></figure>
     </div>
   </div>
@@ -300,6 +300,9 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Read the verdict</b> - "Dry at least 30 h" or "Rain in 40 min", with a coloured dot for how far to trust it.</span></li>
         <li><span><b>See the next 24 hours as a strip</b> - each hour coloured by how sure the forecast is, with the end of the radar's reach marked.</span></li>
         <li><span><b>Scan the coming days</b> - lowest and highest temperature, wind, rain and a confidence dot per day. Open a day for more.</span></li>
+        <li><span><b>Far days say a range, not one run</b> - for a day that starts more than three days ahead, its rain or snow is what most of the model's 51 runs give, for example "0-22 mm, snow up to 7 cm". Nearer days give the amount, named by what most of the water falls as, and snow is drawn as a flake.</span></li>
+        <li><span><b>A dry answer says when light rain may come</b> - "Light precipitation possible in 26 min", worked out for where you stand.</span></li>
+        <li><span><b>What is falling nearby</b> - when an airport, a rain gauge or a road weather station within 40 km measures rain or snow, the top card says what, where and at what time. Within 25 km and in the last 45 minutes it also turns a dry headline into "Light precipitation possible now", because the radar misses light snow from low cloud. A station that measures nothing never makes your place dry.</span></li>
         <li><span><b>Pull down to refresh</b>, or tap the arrow. Tap the wind or pressure tile to jump straight to its chart.</span></li>
       </ul>
       <div class="x" data-only="expert">
@@ -307,6 +310,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <ul>
           <li>Under the verdict, how the confidence is worked out and why it dips about three hours out.</li>
           <li>The model behind the place, for example <code>MET Nordic 1 km</code>, in the place list.</li>
+          <li>Where a day becomes far is set per region by the model that speaks there: past MET Nordic's +73 h in the Nordic, past ALADIN's +72 h in Czechia and Germany. The range is the 10th to 90th percentile of the day totals of the <code>ECMWF IFS025</code> ensemble, and the kind is what 60 % of its wet runs agree on. Elsewhere the days are as before.</li>
         </ul>
       </div>
     </div>
@@ -407,6 +411,7 @@ html:not(.js) .rv{opacity:1;transform:none}
           <li><span><b>Read the legend.</b> The colour scale sits over the map and tells the unit. The temperature scale turns at freezing.</span></li>
           <li><span><b>One-handed zoom.</b> Double-tap to step in, or double-tap and keep the thumb down, then slide.</span></li>
           <li><span><b>Under the map, a sentence</b> in plain words: "Nearest rain 41 km to the north. Measured by radar. Not a forecast."</span></li>
+          <li><span><b>When the nearest radar is out, it says so</b> and names it under the map, and the radars further away carry what they see to your place.</span></li>
         </ul>
         <div class="x" data-only="expert">
           <h3>Expert adds</h3>
@@ -452,6 +457,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Point with one finger</b> to read the exact value at that moment.</span></li>
         <li><span><b>Pinch with two fingers</b> to stretch or move the window. A flat night opens its scale from twenty degrees to three, so the shape appears on its own.</span></li>
         <li><span><b>Coming from Now?</b> Tapping the wind or pressure tile lands on its chart.</span></li>
+        <li><span><b>Back to now</b> - the Now chip and the window chips put the marker back on the present.</span></li>
         <li>Fog and visibility: a chart of how far one can see, with a dashed line at one kilometre where fog begins. It says if the figure is measured at an airport or comes from a model.</li>
       </ul>
       <div class="x" data-only="expert">

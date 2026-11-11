@@ -262,7 +262,7 @@ html:not(.js) .rv{opacity:1;transform:none}
       <p class="lead" style="margin-top:26px;font-size:16px" data-only="expert">Du läser rundturen i läget <b>Expert</b>. Rutor med streckad kant visar vad appen lägger till i Expertläget: källnamn, formler och steglängder.</p>
     </div>
     <div class="heroart">
-      <figure class="phone"><img src="../img/sv/now.webp" alt="Skärmen Nu: Torrt minst 30 h, 1 grad, med prognosen för kommande dagar under" width="640" height="1216" data-user="../img/sv/now.webp" data-expert="../img/sv/e_now.webp"></figure>
+      <figure class="phone"><img src="../img/sv/now.webp" alt="Skärmen Nu: Torrt minst 15 min, minus 3 grader, med prognosen för kommande dagar under" width="640" height="1216" data-user="../img/sv/now.webp" data-expert="../img/sv/e_now.webp"></figure>
       <figure class="float f1 rv"><img src="../img/sv/p_nearby.webp" alt="En rad från översta kortet: instrument i närheten skiljer sig 6 grader just nu" width="1000" height="148"></figure>
     </div>
   </div>
@@ -300,6 +300,9 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Läs beskedet</b> - ”Torrt minst 30 h” eller ”Regn om 40 min”, med en färgad prick för hur mycket du kan lita på det.</span></li>
         <li><span><b>Se de nästa 24 timmarna som ett band</b> - varje timme är färgad efter hur säker prognosen är, och radarns räckvidd är markerad.</span></li>
         <li><span><b>Titta på kommande dagar</b> - lägsta och högsta temperatur, vind, nederbörd och en tillförlitlighetsprick för varje dag. Öppna en dag för mer.</span></li>
+        <li><span><b>Avlägsna dagar visar ett spann, inte en körning</b> - för en dag som börjar mer än tre dagar fram är regnet eller snön det som de flesta av modellens 51 körningar ger, till exempel ”0-22 mm, snö upp till 7 cm”. Närmare dagar visar mängden, namngiven efter vad det mesta av vattnet faller som, och snö ritas som en flinga.</span></li>
+        <li><span><b>Ett torrt besked säger när lätt nederbörd kan komma</b> - ”Möjligen lätt nederbörd om 26 min”, uträknat för där du står.</span></li>
+        <li><span><b>Vad som faller i närheten</b> - när en flygplats, en nederbördsmätare eller en vägväderstation inom 40 km mäter regn eller snö säger översta kortet vad, var och när. Inom 25 km och under de senaste 45 minuterna ändrar den också en torr rubrik till ”Möjligen lätt nederbörd nu”, eftersom radarn missar lätt snöfall från låga moln. En station som inte mäter något gör aldrig din plats torr.</span></li>
         <li><span><b>Dra nedåt för att uppdatera</b>, eller tryck på pilen. Tryck på rutan för vind eller tryck så hoppar du direkt till dess diagram.</span></li>
       </ul>
       <div class="x" data-only="expert">
@@ -307,6 +310,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <ul>
           <li>Under beskedet: hur tillförlitligheten räknas ut och varför den sjunker ungefär tre timmar framåt.</li>
           <li>Modellen bakom platsen, till exempel <code>MET Nordic 1 km</code>, i platslistan.</li>
+          <li>Var en dag blir avlägsen bestäms per region av modellen som gäller där: efter MET Nordics +73 h i Norden, efter ALADINs +72 h i Tjeckien och Tyskland. Spannet är 10:e till 90:e percentilen av dagssummorna i ensemblen <code>ECMWF IFS025</code>, och slaget är det som 60 % av dess blöta körningar är överens om. På andra håll är dagarna som förut.</li>
         </ul>
       </div>
     </div>
@@ -407,6 +411,7 @@ html:not(.js) .rv{opacity:1;transform:none}
           <li><span><b>Läs teckenförklaringen.</b> Färgskalan ligger över kartan och anger enheten. Temperaturskalan vänder vid fryspunkten.</span></li>
           <li><span><b>Zoom med en hand.</b> Dubbeltryck för att zooma in, eller dubbeltryck, håll tummen nere och dra.</span></li>
           <li><span><b>Under kartan en mening</b> med enkla ord: ”Närmaste regn 41 km åt norr. Uppmätt av radar. Ingen prognos.”</span></li>
+          <li><span><b>När närmaste radar är ute säger appen det</b> och namnger den under kartan, och radarerna längre bort för det de ser till din plats.</span></li>
         </ul>
         <div class="x" data-only="expert">
           <h3>Expert lägger till</h3>
@@ -452,6 +457,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Peka med ett finger</b> och läs av det exakta värdet i det ögonblicket.</span></li>
         <li><span><b>Nyp med två fingrar</b> för att sträcka eller flytta fönstret. En platt natt öppnar sin skala från tjugo grader till tre, så formen syns av sig själv.</span></li>
         <li><span><b>Kommer du från Nu?</b> Ett tryck på rutan för vind eller tryck tar dig till dess diagram.</span></li>
+        <li><span><b>Tillbaka till nu</b> - chippet Nu och fönsterchippen sätter markören på nuet igen.</span></li>
         <li>Dimma och sikt: ett diagram över hur långt man ser, med en streckad linje vid en kilometer där dimma börjar. Det säger om värdet är uppmätt på en flygplats eller kommer från en modell.</li>
       </ul>
       <div class="x" data-only="expert">

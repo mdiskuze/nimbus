@@ -262,7 +262,7 @@ html:not(.js) .rv{opacity:1;transform:none}
       <p class="lead" style="margin-top:26px;font-size:16px" data-only="expert">Čteš prohlídku v režimu <b>Expert</b>. Rámečky s čárkovaným okrajem ukazují, co aplikace v režimu Expert přidává: názvy zdrojů, vzorce a délky kroků.</p>
     </div>
     <div class="heroart">
-      <figure class="phone"><img src="../img/cs/now.webp" alt="Obrazovka Teď: Sucho aspoň 30 h, 1 stupeň, pod tím předpověď na další dny" width="640" height="1216" data-user="../img/cs/now.webp" data-expert="../img/cs/e_now.webp"></figure>
+      <figure class="phone"><img src="../img/cs/now.webp" alt="Obrazovka Teď: Sucho aspoň 15 min, minus 3 stupně, pod tím předpověď na další dny" width="640" height="1216" data-user="../img/cs/now.webp" data-expert="../img/cs/e_now.webp"></figure>
       <figure class="float f1 rv"><img src="../img/cs/p_nearby.webp" alt="Řádek z horní karty: měřicí stanice v okolí se teď liší o 6 stupňů" width="1000" height="148"></figure>
     </div>
   </div>
@@ -300,6 +300,9 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Přečti si verdikt</b> - „Sucho aspoň 30 h“ nebo „Déšť za 40 min“, s barevnou tečkou, jak moc mu věřit.</span></li>
         <li><span><b>Podívej se na dalších 24 hodin jako na pás</b> - každá hodina je obarvená podle jistoty předpovědi a je vyznačený konec dosahu radaru.</span></li>
         <li><span><b>Projdi další dny</b> - nejnižší a nejvyšší teplota, vítr, srážky a tečka spolehlivosti pro každý den. Den rozbal pro víc podrobností.</span></li>
+        <li><span><b>Vzdálené dny říkají rozpětí, ne jeden běh</b> - u dne, který začíná víc než tři dny dopředu, jsou srážky to, co dává většina z 51 běhů modelu, třeba „0-22 mm, sníh do 7 cm“. Bližší dny ukazují množství pojmenované podle toho, jak spadla většina vody, a sníh je nakreslený jako vločka.</span></li>
+        <li><span><b>Suchá odpověď řekne, kdy můžou přijít slabé srážky</b> - „Možné slabé srážky za 26 min“, spočítané pro místo, kde stojíš.</span></li>
+        <li><span><b>Co padá v okolí</b> - když letiště, srážkoměr nebo silniční meteostanice do 40 km naměří déšť nebo sníh, horní karta řekne co, kde a v kolik. Do 25 km a za posledních 45 minut navíc změní suchý nadpis na „Možné slabé srážky už teď“, protože radar slabé sněžení z nízké oblačnosti nevidí. Stanice, která nic nenaměří, z tvého místa nikdy neudělá sucho.</span></li>
         <li><span><b>Stáhni dolů pro obnovení</b>, nebo klepni na šipku. Klepnutím na dlaždici větru nebo tlaku skočíš rovnou na její graf.</span></li>
       </ul>
       <div class="x" data-only="expert">
@@ -307,6 +310,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <ul>
           <li>Pod verdiktem, jak se spolehlivost počítá a proč zhruba tři hodiny dopředu klesá.</li>
           <li>Model za místem, třeba <code>MET Nordic 1 km</code>, v seznamu míst.</li>
+          <li>Kde začínají vzdálené dny, určuje pro každou oblast model, který tam mluví: za +73 h MET Nordic na severu, za +72 h ALADIN v Česku a Německu. Rozpětí je 10. až 90. percentil denních součtů ensemblu <code>ECMWF IFS025</code> a druh srážek je to, na čem se shodne 60 % jeho mokrých běhů. Jinde jsou dny jako dřív.</li>
         </ul>
       </div>
     </div>
@@ -407,6 +411,7 @@ html:not(.js) .rv{opacity:1;transform:none}
           <li><span><b>Čti legendu.</b> Barevná stupnice je přes mapou a říká jednotku. Teplotní stupnice se láme u nuly.</span></li>
           <li><span><b>Zoom jednou rukou.</b> Dvojité klepnutí přiblíží, nebo dvakrát klepni, nech palec dole a táhni.</span></li>
           <li><span><b>Pod mapou věta</b> jednoduchými slovy: „Nejbližší srážky 41 km na sever. Naměřeno radarem. Není to předpověď.“</span></li>
+          <li><span><b>Když nejbližší radar nedodává data, řekne to</b> a pod mapou ho jmenuje, a radary dál od tebe přenesou, co vidí, k tvému místu.</span></li>
         </ul>
         <div class="x" data-only="expert">
           <h3>Expert přidává</h3>
@@ -452,6 +457,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><span><b>Ukaž jedním prstem</b> a přečteš přesnou hodnotu v ten okamžik.</span></li>
         <li><span><b>Dvěma prsty roztáhni nebo posuň</b> okno. Plochá noc si otevře stupnici z dvaceti stupňů na tři, takže tvar vynikne sám.</span></li>
         <li><span><b>Přicházíš z Teď?</b> Klepnutí na dlaždici větru nebo tlaku tě dovede na její graf.</span></li>
+        <li><span><b>Zpátky na teď</b> - čip Teď a čipy okna vrátí značku na přítomnost.</span></li>
         <li>Mlha a dohlednost: graf, jak daleko je vidět, s čárkovanou čárou na jednom kilometru, kde mlha začíná. Říká, jestli je údaj změřený na letišti, nebo je z modelu.</li>
       </ul>
       <div class="x" data-only="expert">
