@@ -513,7 +513,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <h3>Expert přidává</h3>
         <ul>
           <li>SMHI publikuje jeden zdroj pro celou zemi. Varování pokrývá nakreslenou oblast, takže aplikace zjišťuje, jestli tvoje místo leží uvnitř.</li>
-          <li>Upozornění na vítr používá stejný práh nárazů jako rada k oblékání a drží se zpátky, když si aplikace není dost jistá, aby tě budila.</li>
+          <li>Upozornění na vítr používá stejný práh nárazů jako rada k oblékání a drží se zpátky, když si aplikace není dost jistá, aby tě budila. Déšť a vítr se hlásí jednou za příchod, ve výchozím nastavení nejvýš dvakrát denně a ne v tichých hodinách.</li>
           <li>Záznam skutečně odeslaných upozornění je tu vidět jen v režimu Expert.</li>
         </ul>
       </div>
@@ -705,8 +705,12 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><b>Stahování na pozadí</b><span>Každou půlhodinu, jen když je síť. Drží widget aktuální, umí varovat na déšť a zapisuje, jaké počasí bylo, takže grafy sahají čím dál víc zpátky. Vypnuto aplikace stahuje, jen když ji otevřeš.</span></li>
         <li><b>Výjimka z optimalizace baterie</b><span>Aplikace ukáže, jestli optimalizace baterie stahování odkládá, a požádá o výjimku. Bez ní funguje, jen widget a zápis historie mají díry.</span></li>
         <li><b>Denní shrnutí</b><span>Ranní oznámení s dnem po částech. Čas se nastavuje zvlášť pro pracovní dny a víkend. S povolením přesného budíku přijde přesně v tu minutu, jinak v rámci půlhodiny stahování.</span></li>
-        <li><b>Upozornění</b><span>Blížící se déšť, silný vítr, varování SMHI a denní shrnutí mají každé vlastní kanál v nastavení oznámení telefonu, takže jedno jde ztlumit bez ostatních.</span></li>
       </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Upozornění</h3>
+      <p>Blížící se déšť, silný vítr, varování SMHI a denní shrnutí mají každé vlastní kanál v nastavení oznámení telefonu, takže jedno jde ztlumit bez ostatních. Déšť, vítr a varování SMHI mají v Nastavení i vlastní vypínač. Déšť a vítr dohromady jsou ve výchozím stavu omezené na dvě za den a od 22:00 do 07:00 mlčí.</p>
+      <div class="stack" style="margin-top:22px"><figure class="phone" style="width:min(300px,80vw)"><img src="../img/cs/alerts.webp" alt="Nastavení: karta Upozornění na počasí" width="640" height="1216" loading="lazy" data-user="../img/cs/alerts.webp" data-expert="../img/cs/e_alerts.webp"></figure></div>
     </div>
     <div class="sgroup rv wide">
       <h3>Vzhled a jazyk</h3>

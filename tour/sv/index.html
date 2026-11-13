@@ -513,7 +513,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <h3>Expert lägger till</h3>
         <ul>
           <li>SMHI publicerar ett flöde för hela landet. En varning täcker ett ritat område, så appen kontrollerar om din plats ligger inuti.</li>
-          <li>Vindnotisen använder samma gränsvärde för vindbyar som klädrådet och hålls tillbaka när appen inte är säker nog för att väcka dig.</li>
+          <li>Vindnotisen använder samma gränsvärde för vindbyar som klädrådet och hålls tillbaka när appen inte är säker nog för att väcka dig. Regn och vind meddelas en gång per omgång, som standard högst två gånger om dagen och inte under de tysta timmarna.</li>
           <li>Loggen över notiser som faktiskt skickats visas här bara i Expertläget.</li>
         </ul>
       </div>
@@ -705,8 +705,12 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><b>Uppdatera i bakgrunden</b><span>Varje halvtimme, bara när det finns nät. Håller widgeten aktuell, låter regnvarningen gå och skriver ner hur vädret var, så diagrammen når allt längre bakåt. Avstängt hämtar appen bara när du öppnar den.</span></li>
         <li><b>Undantag från batterioptimering</b><span>Appen visar om telefonens batterioptimering skjuter upp uppdateringen och ber om undantag. Den fungerar utan, men widgeten och historiken får hål.</span></li>
         <li><b>Dagens sammanfattning</b><span>En morgonavisering med dagen del för del. Tiden ställs in för sig för vardagar och helg. Med tillstånd för exakt alarm kommer den på minuten, annars inom halvtimmen för uppdateringen.</span></li>
-        <li><b>Aviseringar</b><span>Regn på väg, stark vind, SMHI-varningar och dagens sammanfattning har var sin kanal i telefonens aviseringsinställningar, så en kan tystas utan de andra.</span></li>
       </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Aviseringar</h3>
+      <p>Regn på väg, stark vind, SMHI-varningar och dagens sammanfattning har var sin kanal i telefonens aviseringsinställningar, så en kan tystas utan de andra. Regn, vind och SMHI-varningar har dessutom ett eget reglage i Inställningar. Regn och vind tillsammans är som standard begränsade till två om dagen och tiger mellan 22:00 och 07:00.</p>
+      <div class="stack" style="margin-top:22px"><figure class="phone" style="width:min(300px,80vw)"><img src="../img/sv/alerts.webp" alt="Inställningar: kortet Vädernotiser" width="640" height="1216" loading="lazy" data-user="../img/sv/alerts.webp" data-expert="../img/sv/e_alerts.webp"></figure></div>
     </div>
     <div class="sgroup rv wide">
       <h3>Utseende och språk</h3>

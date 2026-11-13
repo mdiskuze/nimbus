@@ -513,7 +513,7 @@ html:not(.js) .rv{opacity:1;transform:none}
         <h3>Expert adds</h3>
         <ul>
           <li>SMHI publishes one feed for the whole country. A warning covers a drawn area, so the app checks whether your place lies inside it.</li>
-          <li>The wind alert uses the same gust threshold as the dressing advice, and is held back when the app is not confident enough to wake you.</li>
+          <li>The wind alert uses the same gust threshold as the dressing advice, and is held back when the app is not confident enough to wake you. Rain and wind are told once per spell, at most twice a day by default, and not in the quiet hours.</li>
           <li>The log of notifications actually sent is shown here in Expert mode only.</li>
         </ul>
       </div>
@@ -705,8 +705,12 @@ html:not(.js) .rv{opacity:1;transform:none}
         <li><b>Refresh in the background</b><span>Every half hour, only on a network. It keeps the widget current, lets the rain warning fire and records what the weather was, so the charts look further back. Off, the app fetches only when you open it.</span></li>
         <li><b>Battery exemption</b><span>The app shows whether the phone's battery optimisation is deferring the refresh and asks for the exemption. It works without it, but the widget and the history get gaps.</span></li>
         <li><b>Daily brief</b><span>A morning notification with the day part by part. Set its time separately for weekdays and weekends. With the exact-alarm permission it arrives at that minute, otherwise within the half hour of the refresh.</span></li>
-        <li><b>Alerts</b><span>Rain about to start, strong wind, the SMHI warnings and the daily brief each have a channel of their own in the phone's notification settings, so one can be silenced without the others.</span></li>
       </ul>
+    </div>
+    <div class="sgroup rv wide">
+      <h3>Alerts</h3>
+      <p>Rain about to start, strong wind, the SMHI warnings and the daily brief each have a channel of their own in the phone's notification settings, so one can be silenced without the others. Rain, wind and the SMHI warnings also have a switch of their own in Settings. Rain and wind together are limited to two a day by default and keep quiet from 22:00 to 07:00.</p>
+      <div class="stack" style="margin-top:22px"><figure class="phone" style="width:min(300px,80vw)"><img src="img/en/alerts.webp" alt="Settings: the Weather alerts card" width="640" height="1216" loading="lazy" data-user="img/en/alerts.webp" data-expert="img/en/e_alerts.webp"></figure></div>
     </div>
     <div class="sgroup rv wide">
       <h3>Appearance and language</h3>
